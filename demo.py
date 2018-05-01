@@ -4,6 +4,12 @@
 from PIL import Image
 from pprint import pprint
 import numpy as np
+import time as time_
+
+def millis(): # from https://stackoverflow.com/questions/5998245/get-current-time-in-milliseconds-in-python/6000198#6000198
+    return int(round(time_.time() * 1000))
+
+start = millis()
 
 # Constants
 # BRIGHT_CUTOFF = 175
@@ -43,5 +49,11 @@ final.save('final.jpg')
 # Return/Print Percent Coverage
 percent_open = count_open/count_total
 percent_cover = 1 - percent_open
+
+end = millis()
+
 print("Percent Open: " + str(percent_open))
 print("Percent Cover: " + str(percent_cover))
+
+runtime = end-start
+print("Runtime in MS: " + str(runtime))
