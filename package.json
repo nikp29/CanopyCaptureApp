@@ -10,13 +10,18 @@
     "author": "Apache Cordova Team",
     "license": "Apache-2.0",
     "dependencies": {
-        "cordova-android": "^7.0.0",
+        "cordova-android": "^7.1.0",
         "cordova-ios": "^4.5.4",
+        "cordova-plugin-camera": "^4.0.3",
         "cordova-plugin-whitelist": "^1.3.3"
     },
     "cordova": {
         "plugins": {
-            "cordova-plugin-whitelist": {}
+            "cordova-plugin-whitelist": {},
+            "cordova-plugin-camera": {
+                "CAMERA_USAGE_DESCRIPTION": "To analyze your canopy cover photos",
+                "PHOTOLIBRARY_USAGE_DESCRIPTION": "To analyze your canopy cover photos"
+            }
         },
         "platforms": [
             "ios",
