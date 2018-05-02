@@ -17,10 +17,13 @@
  * under the License.
  */
 var app = {
+
     // Application Constructor
     initialize: function() {
         document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
+        document.getElementById("deviceready").addEventListener('click', this.takePhoto);
     },
+
 
     // deviceready Event Handler
     //
@@ -61,7 +64,7 @@ var app = {
 
     onError: function() {
         console.log('Accellerometer problem - Device might not have accellerometer');
-        
+
     },
 
 
@@ -74,7 +77,11 @@ var app = {
             var image = document.getElementById('myImage');
             image.src = "data:image/jpeg;base64," + imageData;
         }
-        navigator.camera.getPicture(cameraSuccess, cameraError, cameraOptions);
+
+        function cameraError(message) {
+            console.log(message);
+        }
+        navigator.camera.getPicture(cameraSuccess, cameraError);
     }
 
 };
