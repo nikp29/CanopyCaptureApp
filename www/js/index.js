@@ -45,10 +45,11 @@ var app = {
         var listeningElement = parentElement.querySelector('.listening');
         var receivedElement = parentElement.querySelector('.received');
 
+        console.log('a');
+        listeningElement.setAttribute('style', 'display:none;');
         receivedElement.setAttribute('style', 'display:none;');
-        listeningElement.setAttribute('style', 'display:block;');
 
-        console.log('Received Event: ' + id);
+        console.log('UnReceived Event: ' + id);
     },
     onSuccess: function(acceleration) {
 
@@ -56,8 +57,10 @@ var app = {
 
             app.receivedEvent('deviceready');
         } else {
+            app.unReceivedEvent('deviceready');
             console.log(acceleration.x);
             console.log(acceleration.y);
+            
         }
         //alert(acceleration.z);
     },
