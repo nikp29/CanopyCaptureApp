@@ -40,7 +40,7 @@ var app = {
 
         console.log('Received Event: ' + id);
     },
-    
+
     onSuccess: function(acceleration) {
 
         if (Math.abs(9.81 - acceleration.z) <= .2) {
@@ -58,7 +58,7 @@ var app = {
             receivedElement.setAttribute('style', 'display:none;');
             console.log(acceleration.x);
             console.log(acceleration.y);
-            
+
         }
         //alert(acceleration.z);
     },
@@ -76,14 +76,17 @@ var app = {
     takePhoto: function() {
         function cameraSuccess(imageData) {
             var image = document.getElementById('myImage');
-            image.src = "data:image/jpeg;base64," + imageData;
-            receivedElement.setAttribute('style', 'width:200px;');
+            image.style.display = 'block';
+            image.src = imageData;
         }
 
         function cameraError(message) {
             console.log(message);
         }
-        navigator.camera.getPicture(cameraSuccess, cameraError);
+        navigator.camera.getPicture(cameraSuccess, cameraError, {
+            quality: 10,
+            destinationType: Camera.DestinationType.FILE_URI
+        });
     }
 
 };
