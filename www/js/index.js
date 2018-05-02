@@ -37,7 +37,16 @@ var app = {
 
         console.log('Received Event: ' + id);
     },
-    
+    undoReceivedEvent: function(id) {
+        var parentElement = document.getElementById(id);
+        var listeningElement = parentElement.querySelector('.listening');
+        var receivedElement = parentElement.querySelector('.received');
+
+        receivedElement.setAttribute('style', 'display:none;');
+        listeningElement.setAttribute('style', 'display:block;');
+
+        console.log('Received Event: ' + id);
+    },
     onSuccess: function(acceleration) {
         
         if (Math.abs(9.81-acceleration.z) <= .2) {
@@ -48,11 +57,11 @@ var app = {
             console.log(acceleration.x);
             console.log(acceleration.y);
         }
-        alert(acceleration.z);
+        //alert(acceleration.z);
     },
 
     onError: function() {
-        console.log('oops, not working');
+        console.log('Accellerometer problem - Device might not have accellerometer');
         
     },
 
