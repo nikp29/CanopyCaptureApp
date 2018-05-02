@@ -37,14 +37,13 @@ var app = {
 
         console.log('Received Event: ' + id);
     },
-    
+
     onSuccess: function(acceleration) {
-        
-        if (Math.abs(9.81-acceleration.z) <= .2) {
-            
+
+        if (Math.abs(9.81 - acceleration.z) <= .2) {
+
             app.receivedEvent('deviceready');
-        }
-        else {
+        } else {
             console.log(acceleration.x);
             console.log(acceleration.y);
         }
@@ -53,17 +52,21 @@ var app = {
 
     onError: function() {
         console.log('oops, not working');
-        
     },
 
-    
+
     onDeviceReady: function() {
-        var options = { frequency: 1000 };  // Update every 1 second
+        var options = { frequency: 1000 }; // Update every 1 second
         navigator.accelerometer.watchAcceleration(this.onSuccess, this.onError, options);
-        
+    },
+    takePhoto: function() {
+        function cameraSuccess(imageData) {
+            var image = document.getElementById('myImage');
+            image.src = "data:image/jpeg;base64," + imageData;
+        }
+        navigator.camera.getPicture(cameraSuccess, cameraError, cameraOptions);
     }
 
-    
 };
 
 app.initialize();
