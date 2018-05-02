@@ -40,24 +40,22 @@ var app = {
 
         console.log('Received Event: ' + id);
     },
-    undoReceivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
-
-        console.log('a');
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:none;');
-
-        console.log('UnReceived Event: ' + id);
-    },
+    
     onSuccess: function(acceleration) {
 
         if (Math.abs(9.81 - acceleration.z) <= .2) {
 
             app.receivedEvent('deviceready');
         } else {
-            app.unReceivedEvent('deviceready');
+            var id = 'deviceready'
+            console.log('UnReceived Event: ' + id);
+            var parentElement = document.getElementById(id);
+            var listeningElement = parentElement.querySelector('.listening');
+            var receivedElement = parentElement.querySelector('.received');
+
+            console.log('a');
+            listeningElement.setAttribute('style', 'display:block;');
+            receivedElement.setAttribute('style', 'display:none;');
             console.log(acceleration.x);
             console.log(acceleration.y);
             
@@ -79,6 +77,7 @@ var app = {
         function cameraSuccess(imageData) {
             var image = document.getElementById('myImage');
             image.src = "data:image/jpeg;base64," + imageData;
+            receivedElement.setAttribute('style', 'width:200px;');
         }
 
         function cameraError(message) {
