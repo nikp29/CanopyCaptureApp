@@ -26,8 +26,22 @@ var app = {
     //
     // Bind any cordova events here. Common events are:
     // 'pause', 'resume', etc.
+    
+    onSuccess: function(acceleration) {
+        alert('Acceleration X: ' + acceleration.x + '\n' +
+              'Acceleration Y: ' + acceleration.y + '\n' +
+              'Acceleration Z: ' + acceleration.z + '\n' +
+              'Timestamp: '      + acceleration.timestamp + '\n');
+    },
+
+    onError: function() {
+        alert('onError!');
+    },
+
     onDeviceReady: function() {
         this.receivedEvent('deviceready');
+        var options = { frequency: 3000 };  // Update every 3 seconds
+        var watchID = navigator.accelerometer.watchAcceleration(onSuccess, onError, options);
     },
 
     // Update DOM on a Received Event
