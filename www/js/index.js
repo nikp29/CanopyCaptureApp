@@ -38,7 +38,6 @@ var app = {
         listeningElement.setAttribute('style', 'display:none;');
         receivedElement.setAttribute('style', 'display:block;');
 
-        console.log('Received Event: ' + id);
     },
 
     onSuccess: function(acceleration) {
@@ -46,18 +45,14 @@ var app = {
         if (Math.abs(9.81 - acceleration.z) <= .2) {
 
             app.receivedEvent('deviceready');
+
         } else {
             var id = 'deviceready'
-            console.log('UnReceived Event: ' + id);
             var parentElement = document.getElementById(id);
             var listeningElement = parentElement.querySelector('.listening');
             var receivedElement = parentElement.querySelector('.received');
-
-            console.log('a');
             listeningElement.setAttribute('style', 'display:block;');
             receivedElement.setAttribute('style', 'display:none;');
-            console.log(acceleration.x);
-            console.log(acceleration.y);
 
         }
         //alert(acceleration.z);
@@ -70,23 +65,28 @@ var app = {
 
 
     onDeviceReady: function() {
-        var options = { frequency: 1000 }; // Update every 1 second
+        var options = { frequency: 400 }; // Update every 1 second
         navigator.accelerometer.watchAcceleration(this.onSuccess, this.onError, options);
     },
     takePhoto: function() {
-        function cameraSuccess(imageData) {
+        navigator.camera.getPicture(cameraSuccess, cameraError, {
+            quality: 50,
+            destinationType: Camera.DestinationType.FILE_URI
+        });
+
+        function cameraSuccess(imageURI) {
+            console.log('hi');
             var image = document.getElementById('myImage');
-            image.style.display = 'block';
-            image.src = imageData;
+            image.setAttribute('style', 'display:block;');
+            console.log('hi2');
+            image.src = imageURI;
         }
 
         function cameraError(message) {
-            console.log(message);
+            console.log('Failed because: ' + message);
         }
-        navigator.camera.getPicture(cameraSuccess, cameraError, {
-            quality: 10,
-            destinationType: Camera.DestinationType.FILE_URI
-        });
+        
+        console.log('bye');
     }
 
 };
