@@ -1,2 +1,5 @@
 test.jpg
 final.jpg
+node_modules/
+platforms/
+plugins/
