@@ -65,12 +65,10 @@ body {
 }
 
 img {
-    
     display: none;
-    position: absolute;
-    padding-top: 10px;
-    padding-bottom: 20px;
-    
+    padding: 10%;
+    height: 80%;
+    margin: auto;
 }
 /* Landscape layout (with min-width) */
 
