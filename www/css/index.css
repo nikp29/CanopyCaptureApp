@@ -49,8 +49,7 @@ body {
 /* Portrait layout (default) */
 .app {
     display: block;
-    position: fixed;
-    margin: auto;            /* position in the center of the screen */
+    position: fixed;          /* position in the center of the screen */
     padding: 12.5%;
     height:75%;                  /* text area height */
     width:75%;                   /* text area width */
@@ -65,21 +64,19 @@ body {
 }
 
 img {
-    
     display: none;
-    position: absolute;
-    padding-top: 10px;
-    padding-bottom: 20px;
-    
+    padding: 10%;
+    height: 80%;
+    margin: auto;
 }
 /* Landscape layout (with min-width) */
 
 h1 {
-    font-size:34px;
-    font-weight:normal;
+    font-size:8vw;
+    font-weight: 500;
     margin:0px;
     overflow:visible;
-    margin-bottom:.5em;
+    margin-bottom:1em;
     text-align:center;
 }
 
@@ -87,9 +84,9 @@ h1 {
     border-radius:4px;
     -webkit-border-radius:4px;
     color:#FFFFFF;
-    font-size:16px;
+    font-size:5vw;
     margin:0px 30px;
-    padding:10px 5px;
+    padding:5px 5px;
 }
 
 .event.listening {
@@ -100,6 +97,11 @@ h1 {
 .event.received {
     background-color:#4B946A;
     display:none;
+}
+
+#restart-button {
+    background-color:#333333;
+    display: none;
 }
 
 @keyframes fade {
@@ -118,4 +120,5 @@ h1 {
     animation:fade 3000ms infinite;
     -webkit-animation:fade 3000ms infinite;
     margin-bottom:2em;
+    display: block;
 }

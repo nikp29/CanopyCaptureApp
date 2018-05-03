@@ -22,8 +22,8 @@ var app = {
     initialize: function() {
         document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
         document.getElementById("deviceready").addEventListener('click', this.takePhoto);
+        document.getElementById("restart-button").addEventListener('click', this.restartApp);
     },
-
 
     // deviceready Event Handler
     //
@@ -65,28 +65,47 @@ var app = {
 
 
     onDeviceReady: function() {
-        var options = { frequency: 400 }; // Update every 1 second
+        var options = { frequency: 50 }; // Update every .05 seconds
         navigator.accelerometer.watchAcceleration(this.onSuccess, this.onError, options);
     },
+    
+    restartApp: function(){
+        var image = document.getElementById('myImage');
+        var photoButton = document.getElementById('deviceready');
+        var restartButton = document.getElementById('restart-button');
+        image.setAttribute('style', 'display:none;');
+        photoButton.setAttribute('style', 'display:block;');
+        restartButton.setAttribute('style', 'display:none;');
+        document.getElementById("main-text").innerHTML = "Take a Photo to Begin";
+    },0
+
     takePhoto: function() {
-        navigator.camera.getPicture(cameraSuccess, cameraError, {
-            quality: 50,
-            destinationType: Camera.DestinationType.FILE_URI
-        });
+        console.log("recognized func");
+        if (document.getElementById('phone-straight').style.display == "block") {
+            navigator.camera.getPicture(cameraSuccess, cameraError, {
+                quality: 50,
+                destinationType: Camera.DestinationType.FILE_URI
+            });
+            
+            function cameraSuccess(imageURI) {
+                // Display the image we just took,  replace the picture taking element with a restart 
+                // button, and give the canopy cover value
+                var image = document.getElementById('myImage');
+                var photoButton = document.getElementById('deviceready');
+                var restartButton = document.getElementById('restart-button');
+                image.setAttribute('style', 'display:block;');
+                image.src = imageURI;
+                photoButton.setAttribute('style', 'display:none;');
+                restartButton.setAttribute('style', 'display:block;');
+                document.getElementById("main-text").innerHTML = "__% Canopy Cover";
+            }
 
-        function cameraSuccess(imageURI) {
-            console.log('hi');
-            var image = document.getElementById('myImage');
-            image.setAttribute('style', 'display:block;');
-            console.log('hi2');
-            image.src = imageURI;
+            function cameraError(message) {
+                console.log('Failed because: ' + message);
+            }
+            
+            
         }
-
-        function cameraError(message) {
-            console.log('Failed because: ' + message);
-        }
-        
-        console.log('bye');
     }
 
 };
