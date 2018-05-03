@@ -37,37 +37,33 @@ body {
     );
     background-attachment:fixed;
     font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
-    font-size:12px;
+    font-size:18px;
     height:100%;
     margin:0px;
     padding:0px;
     text-transform:uppercase;
     width:100%;
+    overflow: hidden;
 }
 
 /* Portrait layout (default) */
 .app {
-    
-    position: absolute;             /* position in the center of the screen */
-    left:50%;
-    top:50%;
-    height:50px;                   /* text area height */
-    width:225px;                   /* text area width */
+    display: block;
+    position: fixed;
+    margin: auto;            /* position in the center of the screen */
+    padding: 12.5%;
+    height:75%;                  /* text area height */
+    width:75%;                   /* text area width */
     text-align:center;
-    padding:180px 0px 0px 0px;     /* image height is 200px (bottom 20px are overlapped with text) */
-    margin:-55px 0px 0px -112px;  /* offset vertical: half of image height and text area height */
-                                   /* offset horizontal: half of text area width */
 }
-#crosshair-box {
-    position: absolute;
-    right: 50%;
-    bottom:50%;
-    height:50%;                   /* text area height */
-    margin:-115px 0px 0px 112px;
-    padding:180px 0px 0px 0px;
-    
+
+.app-half {
+    display: block;
+    height: 50%;
+    width: 100%;
 
 }
+
 img {
     
     display: none;
@@ -77,21 +73,13 @@ img {
     
 }
 /* Landscape layout (with min-width) */
-@media screen and (min-aspect-ratio: 1/1) and (min-width:400px) {
-    .app {
-        background-position:left center;
-        padding:75px 0px 75px 170px;  /* padding-top + padding-bottom + text area = image height */
-        margin:-90px 0px 0px 198px;  /* offset vertical: half of image height */
-                                      /* offset horizontal: half of image width and text area width */
-    }
-}
 
 h1 {
-    font-size:24px;
+    font-size:34px;
     font-weight:normal;
     margin:0px;
     overflow:visible;
-    padding:0px;
+    margin-bottom:.5em;
     text-align:center;
 }
 
@@ -99,9 +87,9 @@ h1 {
     border-radius:4px;
     -webkit-border-radius:4px;
     color:#FFFFFF;
-    font-size:12px;
+    font-size:16px;
     margin:0px 30px;
-    padding:2px 0px;
+    padding:10px 5px;
 }
 
 .event.listening {
@@ -129,4 +117,5 @@ h1 {
 .blink {
     animation:fade 3000ms infinite;
     -webkit-animation:fade 3000ms infinite;
+    margin-bottom:2em;
 }
