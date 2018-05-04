@@ -89,6 +89,7 @@ var app = {
             });
 
             function cameraSuccess(imageURI) {
+                // import ImageParser from 'js/image-parser.js';
                 // Display the image we just took,  replace the picture taking element with a restart 
                 // button, and give the canopy cover value
                 
@@ -109,8 +110,8 @@ var app = {
                 var GREEN_CUTOFF = 150;
                 var BLUE_CUTOFF = 200;
                 console.log("hi")
-                // import ImageParser from 'image-parser';
-                // const ImageParser = require("");
+                // var require: 'image-parser';
+                // let ImageParser = require("image-parser");
                 let img = new ImageParser(imageURI);
                 console.log("hi");
                 img.parse(err => {
@@ -139,7 +140,7 @@ var app = {
 
 
         }
-    }
+    },
 
 };
 
