@@ -16,8 +16,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+const ImageParser = require("image-parser");
 var app = {
-
     // Application Constructor
     initialize: function() {
         document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
@@ -65,11 +65,13 @@ var app = {
 
 
     onDeviceReady: function() {
-        var options = { frequency: 50 }; // Update every .05 seconds
+        var options = {
+            frequency: 50
+        }; // Update every .05 seconds
         navigator.accelerometer.watchAcceleration(this.onSuccess, this.onError, options);
     },
-    
-    restartApp: function(){
+
+    restartApp: function() {
         var image = document.getElementById('myImage');
         var photoButton = document.getElementById('deviceready');
         var restartButton = document.getElementById('restart-button');
@@ -86,25 +88,52 @@ var app = {
                 quality: 50,
                 destinationType: Camera.DestinationType.FILE_URI
             });
-            
+
             function cameraSuccess(imageURI) {
                 // Display the image we just took,  replace the picture taking element with a restart 
                 // button, and give the canopy cover value
                 var image = document.getElementById('myImage');
                 var photoButton = document.getElementById('deviceready');
                 var restartButton = document.getElementById('restart-button');
+
+                // Style Changes
                 image.setAttribute('style', 'display:block;');
-                image.src = imageURI;
                 photoButton.setAttribute('style', 'display:none;');
                 restartButton.setAttribute('style', 'display:block;');
-                document.getElementById("main-text").innerHTML = "__% Canopy Cover";
+                document.getElementById("main-text").innerHTML = "Calculating";
+
+                // Image Working
+                image.src = imageURI;
+                var percent_cover = 0.00;
+                var RED_CUTOFF = 200;
+                var GREEN_CUTOFF = 150;
+                var BLUE_CUTOFF = 200;
+                let img = new ImageParser(imageURI);
+                img.parse(err => {
+                    if (err) {
+                        return console.error(err);
+                    }
+                    console.log(img.getPixel(3, 3));
+                    // PixelClass { r: 34, g: 30, b: 31, a: 1 }
+                    var total_size = img.width() * img.height();
+                    var count_canopy = 0;
+                    for (i = 0; i < img.width(); i++) {
+                        for (j = 0; j < img.height(); j++) {
+                            if ((img.getPixel(i, j).r < RED_CUTOFF) || (img.getPixel(i, j).g < GREEN_CUTOFF) || (img.getPixel(i, j).b < BLUE_CUTOFF)) {
+                                count_canopy += 1;
+                            }
+                        }
+                    }
+                    percent_cover = Math.round(count_canopy / total_size);
+                });
+                document.getElementById("main-text").innerHTML = percent_cover.toString() + "% Canopy Cover";
             }
 
             function cameraError(message) {
                 console.log('Failed because: ' + message);
             }
-            
-            
+
+
         }
     }
 
