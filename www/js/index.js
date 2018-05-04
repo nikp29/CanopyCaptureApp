@@ -77,7 +77,7 @@ var app = {
         photoButton.setAttribute('style', 'display:block;');
         restartButton.setAttribute('style', 'display:none;');
         document.getElementById("main-text").innerHTML = "Take a Photo to Begin";
-    },0
+    },
 
     takePhoto: function() {
         console.log("recognized func");
