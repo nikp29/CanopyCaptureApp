@@ -16,7 +16,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-const ImageParser = require("image-parser");
 var app = {
     // Application Constructor
     initialize: function() {
@@ -41,7 +40,7 @@ var app = {
     },
 
     onSuccess: function(acceleration) {
-
+        
         if (Math.abs(9.81 - acceleration.z) <= .2) {
 
             app.receivedEvent('deviceready');
@@ -92,6 +91,7 @@ var app = {
             function cameraSuccess(imageURI) {
                 // Display the image we just took,  replace the picture taking element with a restart 
                 // button, and give the canopy cover value
+                
                 var image = document.getElementById('myImage');
                 var photoButton = document.getElementById('deviceready');
                 var restartButton = document.getElementById('restart-button');
@@ -108,7 +108,11 @@ var app = {
                 var RED_CUTOFF = 200;
                 var GREEN_CUTOFF = 150;
                 var BLUE_CUTOFF = 200;
+                console.log("hi")
+                // import ImageParser from 'image-parser';
+                // const ImageParser = require("");
                 let img = new ImageParser(imageURI);
+                console.log("hi");
                 img.parse(err => {
                     if (err) {
                         return console.error(err);
