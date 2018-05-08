@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-const ImageParser = require("image-parser");
+// const ImageParser = require("image-parser");
 var app = {
     // Application Constructor
     initialize: function() {
@@ -103,30 +103,30 @@ var app = {
                 document.getElementById("main-text").innerHTML = "Calculating";
 
                 // Image Working
-                image.src = imageURI;
-                var percent_cover = 0.00;
-                var RED_CUTOFF = 200;
-                var GREEN_CUTOFF = 150;
-                var BLUE_CUTOFF = 200;
-                let img = new ImageParser(imageURI);
-                img.parse(err => {
-                    if (err) {
-                        return console.error(err);
-                    }
-                    console.log(img.getPixel(3, 3));
-                    // PixelClass { r: 34, g: 30, b: 31, a: 1 }
-                    var total_size = img.width() * img.height();
-                    var count_canopy = 0;
-                    for (i = 0; i < img.width(); i++) {
-                        for (j = 0; j < img.height(); j++) {
-                            if ((img.getPixel(i, j).r < RED_CUTOFF) || (img.getPixel(i, j).g < GREEN_CUTOFF) || (img.getPixel(i, j).b < BLUE_CUTOFF)) {
-                                count_canopy += 1;
-                            }
-                        }
-                    }
-                    percent_cover = Math.round(count_canopy / total_size);
-                });
-                document.getElementById("main-text").innerHTML = percent_cover.toString() + "% Canopy Cover";
+                // image.src = imageURI;
+                // var percent_cover = 0.00;
+                // var RED_CUTOFF = 200;
+                // var GREEN_CUTOFF = 150;
+                // var BLUE_CUTOFF = 200;
+                // let img = new ImageParser(imageURI);
+                // img.parse(err => {
+                //     if (err) {
+                //         return console.error(err);
+                //     }
+                //     console.log(img.getPixel(3, 3));
+                //     // PixelClass { r: 34, g: 30, b: 31, a: 1 }
+                //     var total_size = img.width() * img.height();
+                //     var count_canopy = 0;
+                //     for (i = 0; i < img.width(); i++) {
+                //         for (j = 0; j < img.height(); j++) {
+                //             if ((img.getPixel(i, j).r < RED_CUTOFF) || (img.getPixel(i, j).g < GREEN_CUTOFF) || (img.getPixel(i, j).b < BLUE_CUTOFF)) {
+                //                 count_canopy += 1;
+                //             }
+                //         }
+                //     }
+                //     percent_cover = Math.round(count_canopy / total_size);
+                // });
+                // document.getElementById("main-text").innerHTML = percent_cover.toString() + "% Canopy Cover";
             }
 
             function cameraError(message) {
