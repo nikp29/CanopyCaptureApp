@@ -40,23 +40,57 @@ var app = {
     },
 
     onSuccess: function(acceleration) {
-        
-        if (Math.abs(9.81 - acceleration.z) <= .2) {
 
+        if (Math.abs(9.81 - acceleration.z) <= .4) {
+            console.log("stable");
             app.receivedEvent('deviceready');
+            var right = document.getElementById('right');
+            var left = document.getElementById('left');
+            var up = document.getElementById('up');
+            var down = document.getElementById('down');
+            left.style.color = "rgba(63, 140, 233,0)";
+            right.style.color = "rgba(63, 140, 233,0)";
+            up.style.color = "rgba(63, 140, 233,0)";
+            down.style.color = "rgba(63, 140, 233,0)";
 
         } else {
-            var id = 'deviceready'
-            var parentElement = document.getElementById(id);
-            var listeningElement = parentElement.querySelector('.listening');
-            var receivedElement = parentElement.querySelector('.received');
-            listeningElement.setAttribute('style', 'display:block;');
-            receivedElement.setAttribute('style', 'display:none;');
+            var left = document.getElementById('left');
+            var right = document.getElementById('right');
+            if (acceleration.x > 0){
+                console.log("right");
+                right.style.color = "rgba(63, 140, 233," + (acceleration.x/4).toString() + ")";
+                left.style.color = "rgba(63, 140, 233,0)";
+            } else {
+                left.style.color = "rgba(63, 140, 233," + (-1*acceleration.x/4).toString() + ")";
+                right.style.color = "rgba(63, 140, 233,0)";
+                console.log("left");
+            }
+            var down = document.getElementById('up');
+            var up = document.getElementById('down');
+            if (acceleration.y > 0){
+                console.log("down");
+                down.style.color = "rgba(63, 140, 233," + (acceleration.y/4).toString() + ")";
+                up.style.color = "rgba(63, 140, 233,0)";
+            } else {
+                up.style.color = "rgba(63, 140, 233," + (-1*acceleration.y/4).toString() + ")";
+                down.style.color = "rgba(63, 140, 233,0)";
+                console.log("up");
+            }
+            
 
         }
         //alert(acceleration.z);
     },
 
+    getOpacity: function(acceleration) {
+        if (Math.abs(acceleration) > 2){
+            var opacity = 1;
+            //photoButton.setAttribute('style', 'color:rgba(63, 140, 233,1);');
+        } else {
+            var opacity = Math.abs(acceleration)/2;
+        }
+        return opacity
+    },
     onError: function() {
         console.log('Accellerometer problem - Device might not have accellerometer');
 
@@ -65,9 +99,10 @@ var app = {
 
     onDeviceReady: function() {
         var options = {
-            frequency: 50
+            frequency: 10
         }; // Update every .05 seconds
         navigator.accelerometer.watchAcceleration(this.onSuccess, this.onError, options);
+        this.startCameraAbove();
     },
 
     restartApp: function() {
@@ -80,7 +115,7 @@ var app = {
         document.getElementById("main-text").innerHTML = "Take a Photo to Begin";
     },
     startCameraAbove: function(){
-        CameraPreview.startCamera({x: 0, y: (window.screen.height*.1), width: window.screen.width, height: (window.screen.height*.9), toBack: false, previewDrag: false, tapPhoto: false});
+        CameraPreview.startCamera({x: 0, y: (window.screen.height*.1), width: window.screen.width, height: (window.screen.height*.9), toBack: true, previewDrag: false, tapPhoto: false});
         CameraPreview.setFlashMode(CameraPreview.FLASH_MODE.OFF);
     },
 
@@ -98,7 +133,7 @@ var app = {
         console.log("recognized func");
         if (document.getElementById('phone-straight').style.display == "block") {
             navigator.camera.getPicture(cameraSuccess, cameraError, {
-                quality: 50,
+                quality: 10,
                 destinationType: Camera.DestinationType.FILE_URI
             });
 
