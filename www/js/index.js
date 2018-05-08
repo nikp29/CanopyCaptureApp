@@ -79,6 +79,20 @@ var app = {
         restartButton.setAttribute('style', 'display:none;');
         document.getElementById("main-text").innerHTML = "Take a Photo to Begin";
     },
+    startCameraAbove: function(){
+        CameraPreview.startCamera({x: 0, y: (window.screen.height*.1), width: window.screen.width, height: (window.screen.height*.9), toBack: false, previewDrag: false, tapPhoto: false});
+        CameraPreview.setFlashMode(CameraPreview.FLASH_MODE.OFF);
+    },
+
+    stopCamera: function(){
+        CameraPreview.stopCamera();
+    },
+
+    takePicture: function(){
+        CameraPreview.takePicture(function(imgData){
+            // document.getElementById('originalPicture').src = 'data:image/jpeg;base64,' + imgData;
+        });
+    },
 
     takePhoto: function() {
         console.log("recognized func");

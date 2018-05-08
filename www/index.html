@@ -36,27 +36,39 @@
     <link rel="stylesheet" type="text/css" href="css/index.css">
     <title>eDensiometer</title>
 </head>
+<body>
 
-
-<div class="app" id="main-div">
-    <div class="app-half">
-        <img id="myImage"></img>
-    </div>
-    <div class="app-half">
-        <h1 id="main-text">Take a Photo to Begin</h1>
-        <div id="deviceready" class="blink">
-            <p class="event listening">Tilt the Phone to Take a Picture</p>
-            <p class="event received" id="phone-straight">Ready to Take Picture</p>
+    <div class="app" id="main-div">
+        <nav>
+                <table>
+                    <tr>
+                        <th id="left-navbar"><p class="nav-button">Info</p></th>
+                        <th id="center-navbar"><p id="navbar-title">eDensiometer</p></th> 
+                        <th id="right-navbar"><p class="nav-button">Back</p></th>
+                    </tr>
+                </table>
+            </nav>
+            <div id="camera-view">
+                
+            </div>
+        <!-- <div class="app-half">
+            <img id="myImage"></img>
         </div>
-        <div id="restart-button" class="blink">
-            <p class="event">Take Another Photo</p>
-        </div>
-    </div>
+        <div class="app-half">
+            <h1 id="main-text">Take a Photo to Begin</h1>
+            <div id="deviceready" class="blink">
+                <p class="event listening">Tilt the Phone to Take a Picture</p>
+                <p class="event received" id="phone-straight">Ready to Take Picture</p>
+            </div>
+            <div id="restart-button" class="blink">
+                <p class="event">Take Another Photo</p>
+            </div>
+        </div> -->
 
-</div>
-<script type=" text/javascript " src="cordova.js "></script>
-<script type="text/javascript " src="js/index.js "></script>
-<script type="text/javascript" src="js/image-parser.js"></script>
+    </div>
+    <script type=" text/javascript " src="cordova.js "></script>
+    <script type="text/javascript " src="js/index.js "></script>
+    <script type="text/javascript" src="js/image-parser.js"></script>
 
 </body>
 
