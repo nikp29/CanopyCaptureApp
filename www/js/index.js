@@ -120,8 +120,8 @@ var app = {
                 canvas.getContext('2d').drawImage(image, 0, 0, image.width, image.height);
                 count_canopy = 0;
                 total_size = image.width * image.height;
-                for (i = 0; i < image.width(); i++) {
-                    for (j = 0; j < image.height(); j++) {
+                for (i = 0; i < image.width; i++) {
+                    for (j = 0; j < image.height; j++) {
                         Data = canvas.getContext('2d').getImageData(i, j, 1, 1).data;
                         if ((Data[0] < RED_CUTOFF) || (Data[1] < GREEN_CUTOFF) || (Data[2] < BLUE_CUTOFF)) {
                             count_canopy += 1;
