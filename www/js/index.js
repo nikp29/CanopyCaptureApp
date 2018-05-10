@@ -19,7 +19,6 @@
 var app = {
     // Application Constructor
     initialize: function() {
-        window.screen.orientation.lock('portrait');
         document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
         document.getElementById("deviceready").addEventListener('click', this.takePhoto);
         document.getElementById("restart-button").addEventListener('click', this.restartApp);

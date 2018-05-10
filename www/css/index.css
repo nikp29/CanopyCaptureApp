@@ -136,6 +136,8 @@ table {
     text-align: center;
     padding: 0px 10px;
     color: #3f8ce9;
+    -webkit-transition: color .05s; /* Safari */
+    transition: color .05s;
 }
 
 #camera-view {
@@ -162,12 +164,15 @@ table {
     left: calc(50% - 23.625px);
     top: 10%;
     z-index: 10;
-    color: rgba(63, 140, 233,0);
+    color: rgba(63, 140, 233,0.1);
 }
 #down{
     position: absolute;
     left: calc(50% - 23.625px);
     bottom: 0px;
     z-index: 10;
-    color: rgba(63, 140, 233,0);
+    color: rgba(63, 140, 233,0.1);
+}
+#border{
+    color: rbga(114, 246, 51,0.01);
 }
