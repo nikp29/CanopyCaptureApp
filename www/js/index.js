@@ -41,12 +41,27 @@ var app = {
 
     },
 
-    onSuccess: function(acceleration) {
 
-        if (Math.abs(9.81 - acceleration.z) <= .2) {
 
+    onDeviceReady: function() {
+        var options = {
+            frequency: 50
+        }; // Update every .05 seconds
+        console.log(navigator)
+        window.addEventListener("deviceorientation", this.handleOrientation, true);
+
+    },
+
+    handleOrientation: function(event) {
+        var absolute = event.absolute;
+        var alpha = event.alpha; // yaw
+        var beta = event.beta; // pitch
+        var gamma = event.gamma; // roll
+
+        var straight = Math.abs(beta) < 5 && Math.abs(gamma) < 5;
+
+        if (straight) {
             app.receivedEvent('deviceready');
-
         } else {
             var id = 'deviceready'
             var parentElement = document.getElementById(id);
@@ -56,20 +71,6 @@ var app = {
             receivedElement.setAttribute('style', 'display:none;');
 
         }
-        //alert(acceleration.z);
-    },
-
-    onError: function() {
-        console.log('Accellerometer problem - Device might not have accellerometer');
-
-    },
-
-
-    onDeviceReady: function() {
-        var options = {
-            frequency: 50
-        }; // Update every .05 seconds
-        navigator.accelerometer.watchAcceleration(this.onSuccess, this.onError, options);
     },
 
     restartApp: function() {
