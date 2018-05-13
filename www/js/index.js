@@ -37,10 +37,21 @@ var app = {
 
         listeningElement.setAttribute('style', 'display:none;');
         receivedElement.setAttribute('style', 'display:block;');
-
     },
 
-    onSuccess: function(acceleration) {
+    onDeviceReady: function() {
+        var options = {
+            frequency: 10
+        }; // Update every .05 seconds
+        this.startCameraAbove();
+        window.addEventListener("deviceorientation", this.handleOrientation, true);
+    },
+
+    handleOrientation: function(event) {
+        var absolute = event.absolute;
+        var alpha = event.alpha; // yaw
+        var beta = event.beta; // pitch
+        var gamma = event.gamma; // roll
 
         var right = document.getElementById('right');
         var left = document.getElementById('left');
@@ -48,9 +59,9 @@ var app = {
         var down = document.getElementById('down');
         var border = document.getElementById("border");
 
-        if (Math.abs(9.81 - acceleration.z) <= .4) {
-            
-            
+        var straight = Math.abs(beta) < 5 && Math.abs(gamma) < 5;
+
+        if (straight) {
             left.style.color = "rgba(63, 140, 233,0)";
             right.style.color = "rgba(63, 140, 233,0)";
             up.style.color = "rgba(63, 140, 233,0)";
@@ -58,64 +69,31 @@ var app = {
             border.style.borderColor = "rgba(63, 140, 233,1)";
             console.log("stable");
             app.receivedEvent('deviceready');
-
         } else {
-            
+
             border.style.borderColor = "rgba(63, 140, 233,0)";
-            console.log("stable");
-            if (acceleration.x > 0){
-                
-                console.log("right");
-                right.style.color = "rgba(63, 140, 233," + (acceleration.x/4).toString() + ")";
-                left.style.color = "rgba(63, 140, 233,0)";
-            
-            } else {
-            
-                left.style.color = "rgba(63, 140, 233," + (-1*acceleration.x/4).toString() + ")";
+
+            console.log(gamma / 4)
+
+            if (gamma > 0) { // Left/Right
+                console.log("moister")
+                left.style.color = "rgba(63, 140, 233," + (gamma / 4).toString() + ")"; //Left
                 right.style.color = "rgba(63, 140, 233,0)";
-                console.log("left");
-            
-            }
-
-            if (acceleration.y > 0){
-           
-                console.log("down");
-                up.style.color = "rgba(63, 140, 233," + (acceleration.y/4).toString() + ")";
-                down.style.color = "rgba(63, 140, 233,0)";
-            
             } else {
-            
-                down.style.color = "rgba(63, 140, 233," + (-1*acceleration.y/4).toString() + ")";
-                up.style.color = "rgba(63, 140, 233,0)";
-                console.log("up");
-            
+                console.log("cloister");
+                right.style.color = "rgba(63, 140, 233," + (-1 * gamma / 4).toString() + ")"; //Right
+                left.style.color = "rgba(63, 140, 233,0)";
             }
 
+            if (beta > 0) { //Up/Down
+                up.style.color = "rgba(63, 140, 233," + (beta / 4).toString() + ")"; //Down
+                down.style.color = "rgba(63, 140, 233,0)";
+            } else {
+                down.style.color = "rgba(63, 140, 233," + (-1 * beta / 4).toString() + ")"; //Up
+                up.style.color = "rgba(63, 140, 233,0)";
+            }
         }
-        //alert(acceleration.z);
-    },
 
-    getOpacity: function(acceleration) {
-        if (Math.abs(acceleration) > 2){
-            var opacity = 1;
-            //photoButton.setAttribute('style', 'color:rgba(63, 140, 233,1);');
-        } else {
-            var opacity = Math.abs(acceleration)/2;
-        }
-        return opacity
-    },
-    onError: function() {
-        console.log('Accellerometer problem - Device might not have accellerometer');
-
-    },
-
-
-    onDeviceReady: function() {
-        var options = {
-            frequency: 10
-        }; // Update every .05 seconds
-        navigator.accelerometer.watchAcceleration(this.onSuccess, this.onError, options);
-        this.startCameraAbove();
     },
 
     restartApp: function() {
@@ -127,17 +105,17 @@ var app = {
         restartButton.setAttribute('style', 'display:none;');
         document.getElementById("main-text").innerHTML = "Take a Photo to Begin";
     },
-    startCameraAbove: function(){
-        CameraPreview.startCamera({x: 0, y: (window.screen.height*.1), width: window.screen.width, height: (window.screen.height*.9), toBack: true, previewDrag: false, tapPhoto: false});
+    startCameraAbove: function() {
+        CameraPreview.startCamera({ x: 0, y: (window.screen.height * .1), width: window.screen.width, height: (window.screen.height * .9), toBack: true, previewDrag: false, tapPhoto: false });
         CameraPreview.setFlashMode(CameraPreview.FLASH_MODE.OFF);
     },
 
-    stopCamera: function(){
+    stopCamera: function() {
         CameraPreview.stopCamera();
     },
 
-    takePicture: function(){
-        CameraPreview.takePicture(function(imgData){
+    takePicture: function() {
+        CameraPreview.takePicture(function(imgData) {
             // document.getElementById('originalPicture').src = 'data:image/jpeg;base64,' + imgData;
         });
     },
@@ -154,7 +132,7 @@ var app = {
                 // import ImageParser from 'js/image-parser.js';
                 // Display the image we just took,  replace the picture taking element with a restart 
                 // button, and give the canopy cover value
-                
+
                 var image = document.getElementById('myImage');
                 var photoButton = document.getElementById('deviceready');
                 var restartButton = document.getElementById('restart-button');
@@ -172,8 +150,8 @@ var app = {
                 var GREEN_CUTOFF = 150;
                 var BLUE_CUTOFF = 200;
                 console.log("hi")
-                // var require: 'image-parser';
-                // let ImageParser = require("image-parser");
+                    // var require: 'image-parser';
+                    // let ImageParser = require("image-parser");
                 let img = new ImageParser(imageURI);
                 console.log("hi");
                 img.parse(err => {
