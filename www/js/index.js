@@ -29,6 +29,7 @@ var app = {
     // Bind any cordova events here. Common events are:
     // 'pause', 'resume', etc.
     // Update DOM on a Received Event
+
     receivedEvent: function(id) {
         var parentElement = document.getElementById(id);
         var listeningElement = parentElement.querySelector('.listening');
@@ -41,42 +42,54 @@ var app = {
 
     onSuccess: function(acceleration) {
 
+        var right = document.getElementById('right');
+        var left = document.getElementById('left');
+        var up = document.getElementById('up');
+        var down = document.getElementById('down');
+        var border = document.getElementById("border");
+
         if (Math.abs(9.81 - acceleration.z) <= .4) {
-            console.log("stable");
-            app.receivedEvent('deviceready');
-            var right = document.getElementById('right');
-            var left = document.getElementById('left');
-            var up = document.getElementById('up');
-            var down = document.getElementById('down');
+            
+            
             left.style.color = "rgba(63, 140, 233,0)";
             right.style.color = "rgba(63, 140, 233,0)";
             up.style.color = "rgba(63, 140, 233,0)";
             down.style.color = "rgba(63, 140, 233,0)";
+            border.style.borderColor = "rgba(63, 140, 233,1)";
+            console.log("stable");
+            app.receivedEvent('deviceready');
 
         } else {
-            var left = document.getElementById('left');
-            var right = document.getElementById('right');
+            
+            border.style.borderColor = "rgba(63, 140, 233,0)";
+            console.log("stable");
             if (acceleration.x > 0){
+                
                 console.log("right");
                 right.style.color = "rgba(63, 140, 233," + (acceleration.x/4).toString() + ")";
                 left.style.color = "rgba(63, 140, 233,0)";
+            
             } else {
+            
                 left.style.color = "rgba(63, 140, 233," + (-1*acceleration.x/4).toString() + ")";
                 right.style.color = "rgba(63, 140, 233,0)";
                 console.log("left");
-            }
-            var down = document.getElementById('up');
-            var up = document.getElementById('down');
-            if (acceleration.y > 0){
-                console.log("down");
-                down.style.color = "rgba(63, 140, 233," + (acceleration.y/4).toString() + ")";
-                up.style.color = "rgba(63, 140, 233,0)";
-            } else {
-                up.style.color = "rgba(63, 140, 233," + (-1*acceleration.y/4).toString() + ")";
-                down.style.color = "rgba(63, 140, 233,0)";
-                console.log("up");
-            }
             
+            }
+
+            if (acceleration.y > 0){
+           
+                console.log("down");
+                up.style.color = "rgba(63, 140, 233," + (acceleration.y/4).toString() + ")";
+                down.style.color = "rgba(63, 140, 233,0)";
+            
+            } else {
+            
+                down.style.color = "rgba(63, 140, 233," + (-1*acceleration.y/4).toString() + ")";
+                up.style.color = "rgba(63, 140, 233,0)";
+                console.log("up");
+            
+            }
 
         }
         //alert(acceleration.z);

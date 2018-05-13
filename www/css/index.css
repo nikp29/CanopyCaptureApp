@@ -162,7 +162,7 @@ table {
 #up{
     position: absolute;
     left: calc(50% - 23.625px);
-    top: 10%;
+    top: 59px;
     z-index: 10;
     color: rgba(63, 140, 233,0.1);
 }
@@ -174,5 +174,16 @@ table {
     color: rgba(63, 140, 233,0.1);
 }
 #border{
-    color: rbga(114, 246, 51,0.01);
+    
+    position: absolute;
+    border-width: 5%!important;
+    border-style: solid;
+    border-color: rgba(63, 140, 233,0.1);
+    top: 63px;
+    bottom: 0%;
+    left: 0%;
+    right: 0%;
+    z-index: 10;
+    -webkit-transition: border-color .5s; /* Safari */
+    transition: border-color .5s;
 }
