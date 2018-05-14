@@ -46,20 +46,25 @@ var app = {
             frequency: 10
         }; // Update every .05 seconds
         this.startCameraAbove();
-        window.addEventListener("deviceorientation", this.handleOrientation, true);
+        this.initCameraView();
     },
     initCameraView: function() {
+        window.addEventListener("deviceorientation", this.handleOrientation, true);
         var cameraView = document.getElementById('camera-interface');
-        cameraView.display = "block";
+        cameraView.style.display = "block";
         var analyzeView = document.getElementById('analyze-interface');
-        analyzeView.display = "none";
+        analyzeView.style.display = "none";
+        CameraPreview.show();
+        document.getElementById("border").style.position = "absolute";
+        document.getElementById("border").style.display = "block";
 
     },
     initAnalyzeView: function() {
+        window.removeEventListener("deviceorientation", this.handleOrientation, true);
         var cameraView = document.getElementById('camera-interface');
-        cameraView.display = "none";
+        cameraView.style.display = "none";
         var analyzeView = document.getElementById('analyze-interface');
-        analyzeView.display = "block";
+        analyzeView.style.display = "block";
 
     },
     handleOrientation: function(event) {
@@ -75,52 +80,57 @@ var app = {
         var border = document.getElementById("border");
 
         var straight = Math.abs(beta) < 2 && Math.abs(gamma) < 2;
-        var rightIcon = document.getElementById('right-icon')
-        if (straight) {
-            left.style.color = "rgba(63, 140, 233,0)";
-            right.style.color = "rgba(63, 140, 233,0)";
-            up.style.color = "rgba(63, 140, 233,0)";
-            down.style.color = "rgba(63, 140, 233,0)";
-            border.style.borderColor = "rgba(63, 140, 233,1)";
-            rightIcon.classList.remove("fas");
-            rightIcon.classList.remove("fa-spin");
-            rightIcon.classList.remove("fa-sync");
-            rightIcon.classList.add("far");
-            rightIcon.classList.add("fa-check-circle");
-            // this.deviceSynced = true;
-            app.receivedEvent('deviceready');
-        } else {
-            // this.deviceSynced = false;
-            border.style.borderColor = "rgba(63, 140, 233,0)";
-            if (rightIcon.classList.contains("fa-spin") == true) {
-                console.log("true");
-            } else {
-                rightIcon.classList.add("fas");
-                rightIcon.classList.add("fa-spin");
-                rightIcon.classList.add("fa-sync");
-                rightIcon.classList.remove("far");
-                rightIcon.classList.remove("fa-check-circle");
-            }
-            console.log(gamma / 4)
-
-            if (gamma > 0) { // Left/Right
-                console.log("moister")
-                left.style.color = "rgba(63, 140, 233," + (gamma / 8).toString() + ")"; //Left
-                right.style.color = "rgba(63, 140, 233,0)";
-            } else {
-                console.log("cloister");
-                right.style.color = "rgba(63, 140, 233," + (-1 * gamma / 8).toString() + ")"; //Right
+        var rightIcon = document.getElementById('right-icon');
+        if (document.getElementById('analyze-interface').style.display == "none") {
+            if (straight) {
                 left.style.color = "rgba(63, 140, 233,0)";
-            }
-
-            if (beta > 0) { //Up/Down
-                up.style.color = "rgba(63, 140, 233," + (beta / 8).toString() + ")"; //Down
-                down.style.color = "rgba(63, 140, 233,0)";
-            } else {
-                down.style.color = "rgba(63, 140, 233," + (-1 * beta / 8).toString() + ")"; //Up
+                right.style.color = "rgba(63, 140, 233,0)";
                 up.style.color = "rgba(63, 140, 233,0)";
+                down.style.color = "rgba(63, 140, 233,0)";
+                border.style.borderColor = "rgba(63, 140, 233,1)";
+                rightIcon.classList.remove("fas");
+                rightIcon.classList.remove("fa-spin");
+                rightIcon.classList.remove("fa-sync");
+                rightIcon.classList.add("far");
+                rightIcon.classList.add("fa-check-circle");
+                // this.deviceSynced = true;
+                app.receivedEvent('deviceready');
+            } else {
+                // this.deviceSynced = false;
+                border.style.borderColor = "rgba(63, 140, 233,0)";
+                if (rightIcon.classList.contains("fa-spin") == true) {
+                    console.log("true");
+                } else {
+                    rightIcon.classList.add("fas");
+                    rightIcon.classList.add("fa-spin");
+                    rightIcon.classList.add("fa-sync");
+                    rightIcon.classList.remove("far");
+                    rightIcon.classList.remove("fa-check-circle");
+                }
+                console.log(gamma / 4)
+
+                if (gamma > 0) { // Left/Right
+                    console.log("moister")
+                    left.style.color = "rgba(63, 140, 233," + (gamma / 8).toString() + ")"; //Left
+                    right.style.color = "rgba(63, 140, 233,0)";
+                } else {
+                    console.log("cloister");
+                    right.style.color = "rgba(63, 140, 233," + (-1 * gamma / 8).toString() + ")"; //Right
+                    left.style.color = "rgba(63, 140, 233,0)";
+                }
+
+                if (beta > 0) { //Up/Down
+                    up.style.color = "rgba(63, 140, 233," + (beta / 8).toString() + ")"; //Down
+                    down.style.color = "rgba(63, 140, 233,0)";
+                } else {
+                    down.style.color = "rgba(63, 140, 233," + (-1 * beta / 8).toString() + ")"; //Up
+                    up.style.color = "rgba(63, 140, 233,0)";
+                }
             }
+        } else {
+            border.style.borderColor = "rgba(63, 140, 233,0)";
         }
+        
 
     },
 
@@ -142,18 +152,12 @@ var app = {
         CameraPreview.stopCamera();
     },
 
-    takePicture: function() {
-        CameraPreview.takePicture(function(imgData) {
-            // document.getElementById('originalPicture').src = 'data:image/jpeg;base64,' + imgData;
-        });
-    },
 
     takePhoto: function() {
         console.log("recognized func");
         if (document.getElementById('right-icon').classList.contains("fa-check-circle") == true) {
             CameraPreview.takePicture(function(base64PictureData){
                 /* code here */
-                console.log("passed");
                 imageSrcData = 'data:image/jpeg;base64,' +base64PictureData;
                 cameraSuccess(imageSrcData);
             });
@@ -163,20 +167,24 @@ var app = {
                 // Display the image we just took,  replace the picture taking element with a restart 
                 // button, and give the canopy cover value
                 console.log("reached");
-                var cameraView = document.getElementById('camera-interface');
-                cameraView.display = "none";
-                var analyzeView = document.getElementById('analyze-interface');
-                analyzeView.display = "block";
+                
                 var image = document.getElementById('my-image');
-                // var photoButton = document.getElementById('deviceready');
-                // var restartButton = document.getElementById('restart-button');
-                image.src = imageURI;
-                // Style Changes
-                image.setAttribute('style', 'display:block;');
-                // photoButton.setAttribute('style', 'display:none;');
-                // restartButton.setAttribute('style', 'display:block;');
+                var analyzeView = document.getElementById('analyze-interface');
+                var cameraView = document.getElementById('camera-interface');
+                var rightIcon = document.getElementById('right-icon')
+                
+                cameraView.style.display = "none";
+                cameraView.style.color = "rgba(0,0,0,0)";
+                document.getElementById("border").style.position = "static";
+                document.getElementById("border").style.display = "none";
                 document.getElementById("main-text").innerHTML = "Calculating";
-
+                analyzeView.style.display = "block";
+                console.log(analyzeView.style.display);
+                CameraPreview.hide();
+                rightIcon.classList.add("fas");
+                rightIcon.classList.add("fa-redo");
+                rightIcon.classList.remove("far");
+                rightIcon.classList.remove("fa-check-circle");
                 // Image Working
                 image.src = imageURI;
                 image.onload = function() {
