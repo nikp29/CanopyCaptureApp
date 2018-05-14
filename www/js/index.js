@@ -179,33 +179,35 @@ var app = {
 
                 // Image Working
                 image.src = imageURI;
+                image.onload = function() {
+                    percent_cover = processPhoto(image)
+                    document.getElementById("main-text").innerHTML = percent_cover.toFixed(2) + "% Canopy Cover";
+                    image.style.transform = 'rotate(' + 90 + 'deg)';
+                };
+                
+            }
+
+            function processPhoto(image) {
                 var percent_cover = 0.00;
                 var RED_CUTOFF = 200;
                 var GREEN_CUTOFF = 150;
                 var BLUE_CUTOFF = 200;
-                console.log("hi")
-                    // var require: 'image-parser';
-                    // let ImageParser = require("image-parser");
-                let img = new ImageParser(imageURI);
-                console.log("hi");
-                img.parse(err => {
-                    if (err) {
-                        return console.error(err);
-                    }
-                    console.log(img.getPixel(3, 3));
-                    // PixelClass { r: 34, g: 30, b: 31, a: 1 }
-                    var total_size = img.width() * img.height();
-                    var count_canopy = 0;
-                    for (i = 0; i < img.width(); i++) {
-                        for (j = 0; j < img.height(); j++) {
-                            if ((img.getPixel(i, j).r < RED_CUTOFF) || (img.getPixel(i, j).g < GREEN_CUTOFF) || (img.getPixel(i, j).b < BLUE_CUTOFF)) {
-                                count_canopy += 1;
-                            }
+                var canvas = document.createElement('canvas');
+                canvas.width = image.width;
+                canvas.height = image.height;
+                canvas.getContext('2d').drawImage(image, 0, 0, image.width, image.height);
+                count_canopy = 0;
+                total_size = image.width * image.height;
+                for (i = 0; i < image.width; i++) {
+                    for (j = 0; j < image.height; j++) {
+                        Data = canvas.getContext('2d').getImageData(i, j, 1, 1).data;
+                        if ((Data[0] < RED_CUTOFF) || (Data[1] < GREEN_CUTOFF) || (Data[2] < BLUE_CUTOFF)) {
+                            count_canopy += 1;
                         }
                     }
-                    percent_cover = Math.round(count_canopy / total_size);
-                });
-                document.getElementById("main-text").innerHTML = percent_cover.toString() + "% Canopy Cover";
+                }
+                percent_cover = (count_canopy / total_size) * 100;
+                return (percent_cover);
             }
 
             function cameraError(message) {
