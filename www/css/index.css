@@ -159,10 +159,15 @@ table {
     z-index: 10;
     color: rgba(63, 140, 233,.01);
 }
+.screen{
+    display: block;
+    width: 100%;
+    height: 100%;
+}
 #up{
     position: absolute;
     left: calc(50% - 23.625px);
-    top: 59px;
+    top: 65px;
     z-index: 10;
     color: rgba(63, 140, 233,0.1);
 }
@@ -176,10 +181,10 @@ table {
 #border{
     
     position: absolute;
-    border-width: 5%!important;
+    border-width: 10px;
     border-style: solid;
     border-color: rgba(63, 140, 233,0.1);
-    top: 63px;
+    top: 65px;
     bottom: 0%;
     left: 0%;
     right: 0%;

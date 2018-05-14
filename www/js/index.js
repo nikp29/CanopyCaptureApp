@@ -20,10 +20,12 @@ var app = {
     // Application Constructor
     initialize: function() {
         document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
-        document.getElementById("deviceready").addEventListener('click', this.takePhoto);
+        document.getElementById("border").addEventListener('click', this.takePhoto);
         document.getElementById("restart-button").addEventListener('click', this.restartApp);
+        this.initCameraView();
     },
-
+    // deviceSynced: Boolean() = false,
+    // 0 == 
     // deviceready Event Handler
     //
     // Bind any cordova events here. Common events are:
@@ -46,7 +48,20 @@ var app = {
         this.startCameraAbove();
         window.addEventListener("deviceorientation", this.handleOrientation, true);
     },
+    initCameraView: function() {
+        var cameraView = document.getElementById('camera-interface');
+        cameraView.display = "block";
+        var analyzeView = document.getElementById('analyze-interface');
+        analyzeView.display = "none";
 
+    },
+    initAnalyzeView: function() {
+        var cameraView = document.getElementById('camera-interface');
+        cameraView.display = "none";
+        var analyzeView = document.getElementById('analyze-interface');
+        analyzeView.display = "block";
+
+    },
     handleOrientation: function(event) {
         var absolute = event.absolute;
         var alpha = event.alpha; // yaw
@@ -59,37 +74,50 @@ var app = {
         var down = document.getElementById('down');
         var border = document.getElementById("border");
 
-        var straight = Math.abs(beta) < 5 && Math.abs(gamma) < 5;
-
+        var straight = Math.abs(beta) < 2 && Math.abs(gamma) < 2;
+        var rightIcon = document.getElementById('right-icon')
         if (straight) {
             left.style.color = "rgba(63, 140, 233,0)";
             right.style.color = "rgba(63, 140, 233,0)";
             up.style.color = "rgba(63, 140, 233,0)";
             down.style.color = "rgba(63, 140, 233,0)";
             border.style.borderColor = "rgba(63, 140, 233,1)";
-            console.log("stable");
+            rightIcon.classList.remove("fas");
+            rightIcon.classList.remove("fa-spin");
+            rightIcon.classList.remove("fa-sync");
+            rightIcon.classList.add("far");
+            rightIcon.classList.add("fa-check-circle");
+            // this.deviceSynced = true;
             app.receivedEvent('deviceready');
         } else {
-
+            // this.deviceSynced = false;
             border.style.borderColor = "rgba(63, 140, 233,0)";
-
+            if (rightIcon.classList.contains("fa-spin") == true) {
+                console.log("true");
+            } else {
+                rightIcon.classList.add("fas");
+                rightIcon.classList.add("fa-spin");
+                rightIcon.classList.add("fa-sync");
+                rightIcon.classList.remove("far");
+                rightIcon.classList.remove("fa-check-circle");
+            }
             console.log(gamma / 4)
 
             if (gamma > 0) { // Left/Right
                 console.log("moister")
-                left.style.color = "rgba(63, 140, 233," + (gamma / 4).toString() + ")"; //Left
+                left.style.color = "rgba(63, 140, 233," + (gamma / 8).toString() + ")"; //Left
                 right.style.color = "rgba(63, 140, 233,0)";
             } else {
                 console.log("cloister");
-                right.style.color = "rgba(63, 140, 233," + (-1 * gamma / 4).toString() + ")"; //Right
+                right.style.color = "rgba(63, 140, 233," + (-1 * gamma / 8).toString() + ")"; //Right
                 left.style.color = "rgba(63, 140, 233,0)";
             }
 
             if (beta > 0) { //Up/Down
-                up.style.color = "rgba(63, 140, 233," + (beta / 4).toString() + ")"; //Down
+                up.style.color = "rgba(63, 140, 233," + (beta / 8).toString() + ")"; //Down
                 down.style.color = "rgba(63, 140, 233,0)";
             } else {
-                down.style.color = "rgba(63, 140, 233," + (-1 * beta / 4).toString() + ")"; //Up
+                down.style.color = "rgba(63, 140, 233," + (-1 * beta / 8).toString() + ")"; //Up
                 up.style.color = "rgba(63, 140, 233,0)";
             }
         }
@@ -122,25 +150,31 @@ var app = {
 
     takePhoto: function() {
         console.log("recognized func");
-        if (document.getElementById('phone-straight').style.display == "block") {
-            navigator.camera.getPicture(cameraSuccess, cameraError, {
-                quality: 10,
-                destinationType: Camera.DestinationType.FILE_URI
+        if (document.getElementById('right-icon').classList.contains("fa-check-circle") == true) {
+            CameraPreview.takePicture(function(base64PictureData){
+                /* code here */
+                console.log("passed");
+                imageSrcData = 'data:image/jpeg;base64,' +base64PictureData;
+                cameraSuccess(imageSrcData);
             });
 
             function cameraSuccess(imageURI) {
                 // import ImageParser from 'js/image-parser.js';
                 // Display the image we just took,  replace the picture taking element with a restart 
                 // button, and give the canopy cover value
-
-                var image = document.getElementById('myImage');
-                var photoButton = document.getElementById('deviceready');
-                var restartButton = document.getElementById('restart-button');
-
+                console.log("reached");
+                var cameraView = document.getElementById('camera-interface');
+                cameraView.display = "none";
+                var analyzeView = document.getElementById('analyze-interface');
+                analyzeView.display = "block";
+                var image = document.getElementById('my-image');
+                // var photoButton = document.getElementById('deviceready');
+                // var restartButton = document.getElementById('restart-button');
+                image.src = imageURI;
                 // Style Changes
                 image.setAttribute('style', 'display:block;');
-                photoButton.setAttribute('style', 'display:none;');
-                restartButton.setAttribute('style', 'display:block;');
+                // photoButton.setAttribute('style', 'display:none;');
+                // restartButton.setAttribute('style', 'display:block;');
                 document.getElementById("main-text").innerHTML = "Calculating";
 
                 // Image Working
