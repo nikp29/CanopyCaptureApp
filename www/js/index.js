@@ -21,7 +21,7 @@ var app = {
     initialize: function() {
         document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
         document.getElementById("border").addEventListener('click', this.takePhoto);
-        document.getElementById("restart-button").addEventListener('click', this.restartApp);
+        document.getElementById("right-navbar").addEventListener('click', this.restartCameraView);
         this.initCameraView();
     },
     // deviceSynced: Boolean() = false,
@@ -58,6 +58,27 @@ var app = {
         document.getElementById("border").style.position = "absolute";
         document.getElementById("border").style.display = "block";
 
+    },
+    restartCameraView: function() {
+        
+        window.addEventListener("deviceorientation", this.handleOrientation, true);
+        
+        var image = document.getElementById('my-image');
+        var analyzeView = document.getElementById('analyze-interface');
+        var cameraView = document.getElementById('camera-interface');
+        var rightIcon = document.getElementById('right-icon')
+        
+        cameraView.style.display = "block";
+        cameraView.style.color = "rgba(0,0,0,0)";
+        document.getElementById("border").style.position = "absolute";
+        document.getElementById("border").style.display = "block";
+        document.getElementById("main-text").innerHTML = "Calculating";
+        analyzeView.style.display = "none";
+        console.log(analyzeView.style.display);
+        CameraPreview.show();
+
+        
+        
     },
     initAnalyzeView: function() {
         window.removeEventListener("deviceorientation", this.handleOrientation, true);
