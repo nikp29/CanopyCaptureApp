@@ -150,6 +150,10 @@ var app = {
             }
         } else {
             border.style.borderColor = "rgba(63, 140, 233,0)";
+            rightIcon.classList.add("fas");
+            rightIcon.classList.add("fa-redo");
+            rightIcon.classList.remove("far");
+            rightIcon.classList.remove("fa-check-circle");
         }
         
 
@@ -192,7 +196,6 @@ var app = {
                 var image = document.getElementById('my-image');
                 var analyzeView = document.getElementById('analyze-interface');
                 var cameraView = document.getElementById('camera-interface');
-                var rightIcon = document.getElementById('right-icon')
                 
                 cameraView.style.display = "none";
                 cameraView.style.color = "rgba(0,0,0,0)";
@@ -202,10 +205,6 @@ var app = {
                 analyzeView.style.display = "block";
                 console.log(analyzeView.style.display);
                 CameraPreview.hide();
-                rightIcon.classList.add("fas");
-                rightIcon.classList.add("fa-redo");
-                rightIcon.classList.remove("far");
-                rightIcon.classList.remove("fa-check-circle");
                 // Image Working
                 image.src = imageURI;
                 image.onload = function() {
