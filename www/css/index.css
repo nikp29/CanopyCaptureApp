@@ -162,6 +162,8 @@ table {
 }
 #analyze-interface {
     background-color: lightgray;
+    border-color: #333333;
+    border-top-width: 3px;
 }
 .screen{
     display: none;
