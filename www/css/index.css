@@ -44,6 +44,7 @@ body {
     width: 100%;
     height:100%;
     text-align:center;
+    
 }
 
 .app-half {
@@ -158,6 +159,9 @@ table {
     top: 50%;
     z-index: 10;
     color: rgba(63, 140, 233,.01);
+}
+#analyze-interface {
+    background-color: lightgray;
 }
 .screen{
     display: none;
