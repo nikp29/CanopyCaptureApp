@@ -60,14 +60,14 @@ var app = {
 
     },
     restartCameraView: function() {
-        
+
         window.addEventListener("deviceorientation", this.handleOrientation, true);
-        
+
         var image = document.getElementById('my-image');
         var analyzeView = document.getElementById('analyze-interface');
         var cameraView = document.getElementById('camera-interface');
         var rightIcon = document.getElementById('right-icon')
-        
+
         cameraView.style.display = "block";
         cameraView.style.color = "rgba(0,0,0,0)";
         document.getElementById("border").style.position = "absolute";
@@ -77,8 +77,8 @@ var app = {
         console.log(analyzeView.style.display);
         CameraPreview.show();
 
-        
-        
+
+
     },
     initAnalyzeView: function() {
         window.removeEventListener("deviceorientation", this.handleOrientation, true);
@@ -155,7 +155,7 @@ var app = {
             rightIcon.classList.remove("far");
             rightIcon.classList.remove("fa-check-circle");
         }
-        
+
 
     },
 
@@ -181,9 +181,9 @@ var app = {
     takePhoto: function() {
         console.log("recognized func");
         if (document.getElementById('right-icon').classList.contains("fa-check-circle") == true) {
-            CameraPreview.takePicture(function(base64PictureData){
+            CameraPreview.takePicture(function(base64PictureData) {
                 /* code here */
-                imageSrcData = 'data:image/jpeg;base64,' +base64PictureData;
+                imageSrcData = 'data:image/jpeg;base64,' + base64PictureData;
                 cameraSuccess(imageSrcData);
             });
 
@@ -192,11 +192,11 @@ var app = {
                 // Display the image we just took,  replace the picture taking element with a restart 
                 // button, and give the canopy cover value
                 console.log("reached");
-                
+
                 var image = document.getElementById('my-image');
                 var analyzeView = document.getElementById('analyze-interface');
                 var cameraView = document.getElementById('camera-interface');
-                
+
                 cameraView.style.display = "none";
                 cameraView.style.color = "rgba(0,0,0,0)";
                 document.getElementById("border").style.position = "static";
@@ -212,7 +212,7 @@ var app = {
                     document.getElementById("main-text").innerHTML = percent_cover.toFixed(2) + "% Canopy Cover";
                     image.style.transform = 'rotate(' + 90 + 'deg)';
                 };
-                
+
             }
 
             function processPhoto(image) {
@@ -231,6 +231,9 @@ var app = {
                         Data = canvas.getContext('2d').getImageData(i, j, 1, 1).data;
                         if ((Data[0] < RED_CUTOFF) || (Data[1] < GREEN_CUTOFF) || (Data[2] < BLUE_CUTOFF)) {
                             count_canopy += 1;
+                        } else {
+                            canvas.fillStyle = 'red';
+                            canvas.fillRect(i, j, 1, 1);
                         }
                     }
                 }
