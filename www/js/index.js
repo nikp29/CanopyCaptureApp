@@ -50,6 +50,8 @@ var app = {
     },
     initCameraView: function() {
         window.addEventListener("deviceorientation", this.handleOrientation, true);
+        screen.orientation.lock('portrait-primary');
+        console.log("hi");
         var cameraView = document.getElementById('camera-interface');
         cameraView.style.display = "block";
         var analyzeView = document.getElementById('analyze-interface');
@@ -232,8 +234,11 @@ var app = {
                         if ((Data[0] < RED_CUTOFF) || (Data[1] < GREEN_CUTOFF) || (Data[2] < BLUE_CUTOFF)) {
                             count_canopy += 1;
                         } else {
+                            console.log("testing");
                             canvas.fillStyle = 'red';
-                            canvas.fillRect(i, j, 1, 1);
+                            console.log("ohyesdadi");
+                            canvas.getContext('2d').fillRect(i, j, 1, 1);
+                            console.log("slurp");
                         }
                     }
                 }
