@@ -208,32 +208,35 @@ var app = {
                 // Image Working
                 image.src = imageURI;
                 image.onload = function() {
-                    percent_cover = processPhoto(image)
+                    var canvas = document.getElementById("canvasMan");
+                    canvas.width = image.width;
+                    canvas.height = image.height;
+                    ctx = canvas.getContext('2d')
+                    ctx.drawImage(image, 0, 0, image.width, image.height);
+                    percent_cover = processPhoto(canvas)
+                    canvas.style = image.style;
                     document.getElementById("main-text").innerHTML = percent_cover.toFixed(2) + "% Canopy Cover";
-                    image.style.transform = 'rotate(' + 90 + 'deg)';
+                    image.style.display = "none";
                 };
 
             }
 
-            function processPhoto(image) {
+            function processPhoto(canvas) {
                 var percent_cover = 0.00;
-                var RED_CUTOFF = 200;
-                var GREEN_CUTOFF = 150;
-                var BLUE_CUTOFF = 200;
-                var canvas = document.createElement('canvas');
-                canvas.width = image.width;
-                canvas.height = image.height;
-                canvas.getContext('2d').drawImage(image, 0, 0, image.width, image.height);
+                var RED_CUTOFF = 0;
+                var GREEN_CUTOFF = 0;
+                var BLUE_CUTOFF = 150;
                 count_canopy = 0;
-                total_size = image.width * image.height;
-                for (i = 0; i < image.width; i++) {
-                    for (j = 0; j < image.height; j++) {
-                        Data = canvas.getContext('2d').getImageData(i, j, 1, 1).data;
+                total_size = canvas.width * canvas.height;
+                for (i = 0; i < canvas.width; i++) {
+                    for (j = 0; j < canvas.height; j++) {
+                        Data = ctx.getImageData(i, j, 1, 1).data;
                         if ((Data[0] < RED_CUTOFF) || (Data[1] < GREEN_CUTOFF) || (Data[2] < BLUE_CUTOFF)) {
                             count_canopy += 1;
                         } else {
-                            canvas.fillStyle = 'red';
-                            canvas.fillRect(i, j, 1, 1);
+                            ctx.fillStyle = "white";
+                            ctx.fillRect(i, j, 1, 1);
+                            ctx.stroke();
                         }
                     }
                 }
