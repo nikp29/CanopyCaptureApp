@@ -50,6 +50,8 @@ var app = {
     },
     initCameraView: function() {
         window.addEventListener("deviceorientation", this.handleOrientation, true);
+        screen.orientation.lock('portrait-primary');
+        console.log("hi");
         var cameraView = document.getElementById('camera-interface');
         cameraView.style.display = "block";
         var analyzeView = document.getElementById('analyze-interface');
