@@ -227,18 +227,20 @@ var app = {
                 var percent_cover = 0.00;
                 var RED_CUTOFF = 0;
                 var GREEN_CUTOFF = 0;
-                var BLUE_CUTOFF = 150;
+                var BLUE_CUTOFF = 200;
                 count_canopy = 0;
                 total_size = canvas.width * canvas.height;
                 for (i = 0; i < canvas.width; i++) {
                     for (j = 0; j < canvas.height; j++) {
                         Data = ctx.getImageData(i, j, 1, 1).data;
-                        var HSV_Data = rgb2hsv(Data[0], Data[1], Data[2]);
-                        var Hue = HSV_Data.h
-                        var Saturation = HSV_Data.s;
-                        var Brightness = HSV_Data.v;
-                        // if ((Data[0] < RED_CUTOFF) || (Data[1] < GREEN_CUTOFF) || (Data[2] < BLUE_CUTOFF)) {
-                        if ((Brightness <= 0.5) && (Hue < 170 || Hue > 250) && (Saturation > 13)) {
+                        // var HSV_Data = rgb2hsv(Data[0], Data[1], Data[2]);
+                        // var Hue = HSV_Data.h
+                        // var Saturation = HSV_Data.s;
+                        // var Brightness = HSV_Data.v;
+                        if ((Data[0] < RED_CUTOFF) || (Data[1] < GREEN_CUTOFF) || (Data[2] < BLUE_CUTOFF)) {
+                            // console.log("Hue: " + HSV_Data.h + ". Saturation: " + HSV_Data.s + ". Brightness: " + HSV_Data.v);
+                            // (Brightness <= 50) && 
+                            // if ((Hue < 170 || Hue > 250) && (Saturation > 13)) {
                             count_canopy += 1;
                         } else {
                             ctx.fillStyle = "white";
