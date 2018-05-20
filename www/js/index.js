@@ -233,7 +233,12 @@ var app = {
                 for (i = 0; i < canvas.width; i++) {
                     for (j = 0; j < canvas.height; j++) {
                         Data = ctx.getImageData(i, j, 1, 1).data;
-                        if ((Data[0] < RED_CUTOFF) || (Data[1] < GREEN_CUTOFF) || (Data[2] < BLUE_CUTOFF)) {
+                        var HSV_Data = rgb2hsv(Data[0], Data[1], Data[2]);
+                        var Hue = HSV_Data.h
+                        var Saturation = HSV_Data.s;
+                        var Brightness = HSV_Data.v;
+                        // if ((Data[0] < RED_CUTOFF) || (Data[1] < GREEN_CUTOFF) || (Data[2] < BLUE_CUTOFF)) {
+                        if ((Brightness <= 0.5) && (Hue < 170 || Hue > 250) && (Saturation > 13)) {
                             count_canopy += 1;
                         } else {
                             ctx.fillStyle = "white";
@@ -244,6 +249,46 @@ var app = {
                 }
                 percent_cover = (count_canopy / total_size) * 100;
                 return (percent_cover);
+            }
+
+            function rgb2hsv() { // From https://stackoverflow.com/questions/8022885/rgb-to-hsv-color-in-javascript?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+                var rr, gg, bb,
+                    r = arguments[0] / 255,
+                    g = arguments[1] / 255,
+                    b = arguments[2] / 255,
+                    h, s,
+                    v = Math.max(r, g, b),
+                    diff = v - Math.min(r, g, b),
+                    diffc = function(c) {
+                        return (v - c) / 6 / diff + 1 / 2;
+                    };
+
+                if (diff == 0) {
+                    h = s = 0;
+                } else {
+                    s = diff / v;
+                    rr = diffc(r);
+                    gg = diffc(g);
+                    bb = diffc(b);
+
+                    if (r === v) {
+                        h = bb - gg;
+                    } else if (g === v) {
+                        h = (1 / 3) + rr - bb;
+                    } else if (b === v) {
+                        h = (2 / 3) + gg - rr;
+                    }
+                    if (h < 0) {
+                        h += 1;
+                    } else if (h > 1) {
+                        h -= 1;
+                    }
+                }
+                return {
+                    h: Math.round(h * 360),
+                    s: Math.round(s * 100),
+                    v: Math.round(v * 100)
+                };
             }
 
             function cameraError(message) {
