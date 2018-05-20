@@ -1,12 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="io.cordova.edensiometer" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="io.cordova.edensiometer" version="1.0.0" 
+    xmlns="http://www.w3.org/ns/widgets" 
+    xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>eDensiometer</name>
-    <description>
-        A mobile application that works as a digital densiometer.
-    </description>
-    <author email="nikp29@gmail.com" href="http://cordova.io">
-        Billy Pierce and Nikhil Patel
-    </author>
+    <description>        A mobile application that works as a digital densiometer.    </description>
+    <author email="nikp29@gmail.com" href="http://cordova.io">        Billy Pierce and Nikhil Patel    </author>
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
@@ -26,17 +24,12 @@
         <variable name="CAMERA_USAGE_DESCRIPTION" value="To analyze your canopy cover photos" />
         <variable name="PHOTOLIBRARY_USAGE_DESCRIPTION" value="To analyze your canopy cover photos" />
     </plugin>
-<<<<<<< HEAD
-    <plugin name="cordova-plugin-vibration" spec="^3.1.0" />
-    <plugin name="cordova-plugin-device-orientation" spec="^2.0.1" />
-=======
     <plugin name="cordova-plugin-whitelist" spec="1" />
     <preference name="DisallowOverscroll" value="true" />
     <plugin name="cordova-plugin-camera-preview" spec="https://github.com/cordova-plugin-camera-preview/cordova-plugin-camera-preview.git" />
     <plugin name="cordova-plugin-vibration" spec="^3.1.0" />
     <plugin name="cordova-plugin-device-orientation" spec="^2.0.1" />
     <plugin name="cordova-plugin-screen-orientation" spec="^3.0.1" />
->>>>>>> newinterface
     <engine name="ios" spec="^4.5.4" />
     <engine name="android" spec="^7.1.0" />
     <engine name="browser" spec="^5.0.3" />
