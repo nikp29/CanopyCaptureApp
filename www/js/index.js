@@ -58,11 +58,7 @@ var app = {
         document.getElementById("border").style.position = "absolute";
         document.getElementById("border").style.display = "block";
     },
-    // initCameraView: function() {
-        
-        
 
-    // },
     restartCameraView: function() {
 
         window.addEventListener("deviceorientation", this.handleOrientation, true);
@@ -165,7 +161,7 @@ var app = {
     stopCamera: function() {
         CameraPreview.stopCamera();
     },
-    
+
     takePhoto: function() {
         console.log("recognized func");
         if (document.getElementById('right-icon').classList.contains("fa-check-circle") == true) {
@@ -177,105 +173,104 @@ var app = {
                 console.log("1")
                 cameraSuccess(imageSrcData);
             });
-
-
-            function cameraSuccess(imageURI) {
-                // import ImageParser from 'js/image-parser.js';
-                // Display the image we just took,  replace the picture taking element with a restart 
-                // button, and give the canopy cover value
-                console.log("2");
-
-                var image = document.getElementById('my-image');
-                var analyzeView = document.getElementById('analyze-interface');
-                var cameraView = document.getElementById('camera-interface');
-
-                cameraView.style.display = "none";
-                cameraView.style.color = "rgba(0,0,0,0)";
-                document.getElementById("border").style.position = "static";
-                document.getElementById("border").style.display = "none";
-                document.getElementById("main-text").innerHTML = "Calculating";
-                analyzeView.style.display = "block";
-                console.log("3");
-                CameraPreview.hide();
-                // Image Working
-                console.log("4");
-                image.src = imageURI;
-                console.log("5");
-                image.onload = function() {
-                    console.log("6");
-                    var canvas = document.getElementById("canvasMan");
-                    canvas.width = image.width;
-                    canvas.height = image.height;
-                    console.log("7");
-                    ctx = canvas.getContext('2d');
-                    ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-                    percent_cover = processPhoto(canvas);
-                    canvas.style = image.style;
-                    document.getElementById("main-text").innerHTML = percent_cover.toFixed(2) + "% Canopy Cover";
-                    image.style.display = "none";
-                };
-
-            }
-
-            function processPhoto(canvas) {
-                var percent_cover = 0.00;
-                var RED_CUTOFF = 0;
-                var GREEN_CUTOFF = 0;
-                var BLUE_CUTOFF = 200;
-                count_canopy = 0;
-                total_size = canvas.width * canvas.height;
-                console.log(total_size);
-                for (i = 0; i < canvas.width; i++) {
-                    for (j = 0; j < canvas.height; j++) {
-                        Data = ctx.getImageData(i, j, 1, 1).data;
-                        // var HSV_Data = rgbToHsv(Data[0], Data[1], Data[2]);
-                        // var Hue = HSV_Data[0];
-                        // var Saturation = HSV_Data[1];
-                        // var Brightness = HSV_Data[2];
-                        if ((Data[0] < RED_CUTOFF) || (Data[1] < GREEN_CUTOFF) || (Data[2] < BLUE_CUTOFF)) {
-                            // console.log("Hue: " + HSV_Data.h + ". Saturation: " + HSV_Data.s + ". Brightness: " + HSV_Data.v);
-                            // (Brightness <= 50) && 
-                            // if ((Hue >= 170 && Hue =< 250) && (Saturation < 10)) {
-                                // ctx.fillStyle = "red";
-                                // ctx.fillRect(i, j, 1, 1);
-                                // ctx.stroke()
-                            count_canopy += 1;
-                        } else {
-                            ctx.fillStyle = "red";
-                            ctx.fillRect(i, j, 1, 1);
-                            ctx.stroke();
-                        }
-                    }
-                }
-                percent_cover = (count_canopy / total_size) * 100;
-                return (percent_cover);
-            }
-            function rgbToHsv(r, g, b) {  //From https://gist.github.com/mjackson/5311256
-                r /= 255, g /= 255, b /= 255;
-              
-                var max = Math.max(r, g, b), min = Math.min(r, g, b);
-                var h, s, v = max;
-              
-                var d = max - min;
-                s = max == 0 ? 0 : d / max;
-              
-                if (max == min) {
-                  h = 0; // achromatic
-                } else {
-                  switch (max) {
-                    case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-                    case g: h = (b - r) / d + 2; break;
-                    case b: h = (r - g) / d + 4; break;
-                  }
-              
-                  h /= 6;
-                }
-              
-                return [ h, s, v ];
-              }
         }
-    },
 
+        function cameraSuccess(imageURI) {
+            // import ImageParser from 'js/image-parser.js';
+            // Display the image we just took,  replace the picture taking element with a restart 
+            // button, and give the canopy cover value
+            console.log("2");
+
+            var image = document.getElementById('my-image');
+            var analyzeView = document.getElementById('analyze-interface');
+            var cameraView = document.getElementById('camera-interface');
+            cameraView.style.display = "none";
+            cameraView.style.color = "rgba(0,0,0,0)";
+            document.getElementById("border").style.position = "static";
+            document.getElementById("border").style.display = "none";
+            document.getElementById("main-text").innerHTML = "Calculating";
+            analyzeView.style.display = "block";
+            console.log("3");
+            CameraPreview.hide();
+            // Image Working
+            console.log("4");
+            image.src = imageURI;
+            console.log("5");
+            image.onload = function() {
+                setupCanvas(image);
+            };
+            
+
+        }
+        function setupCanvas(image) {
+            console.log("settingUp");
+            var canvas = document.getElementById("canvasMan");
+            canvas.width = image.width;
+            canvas.height = image.height;
+            var ctx = canvas.getContext('2d');
+            ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+            percent_cover = processPhoto(canvas);
+            canvas.style = image.style;
+            document.getElementById("main-text").innerHTML = percent_cover.toFixed(2) + "% Canopy Cover";
+            image.style.display = "none";
+        }
+            
+        function processPhoto(canvas) {
+            var percent_cover = 0.00;
+            var RED_CUTOFF = 0;
+            var GREEN_CUTOFF = 0;
+            var BLUE_CUTOFF = 200;
+            count_canopy = 0;
+            var ctx = canvas.getContext('2d');
+            total_size = canvas.width * canvas.height;
+            console.log(total_size);
+            var imageDataObject = ctx.getImageData(0,0,canvas.width,canvas.height);
+            var imageData = imageDataObject.data
+            for (index = 0; index < imageData.length; index+=4) {
+                    
+                if ((imageData[index] < RED_CUTOFF) || (imageData[index+1] < GREEN_CUTOFF) || (imageData[index+2] < BLUE_CUTOFF)) {
+                    // console.log("Hue: " + HSV_Data.h + ". Saturation: " + HSV_Data.s + ". Brightness: " + HSV_Data.v);
+                    // (Brightness <= 50) && 
+                    // if ((Hue >= 170 && Hue =< 250) && (Saturation < 10)) {
+                        // ctx.fillStyle = "red";
+                        // ctx.fillRect(i, j, 1, 1);
+                        // ctx.stroke()
+                    count_canopy += 1;
+                } else {
+                    imageData[index]=255
+                    imageData[index+1]=0
+                    imageData[index+2]=0
+                }
+                
+            }
+            imageDataObject.data = imageData
+            ctx.putImageData(imageDataObject,0,0);
+            percent_cover = (count_canopy / total_size) * 100;
+            return (percent_cover);
+        }
+        function rgbToHsv(r, g, b) {  //From https://gist.github.com/mjackson/5311256
+            r /= 255, g /= 255, b /= 255;
+            
+            var max = Math.max(r, g, b), min = Math.min(r, g, b);
+            var h, s, v = max;
+            
+            var d = max - min;
+            s = max == 0 ? 0 : d / max;
+            
+            if (max == min) {
+                h = 0; // achromatic
+            } else {
+                switch (max) {
+                case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                case g: h = (b - r) / d + 2; break;
+                case b: h = (r - g) / d + 4; break;
+                }
+            
+                h /= 6;
+            }
+            
+            return [ h, s, v ];
+        }
+    }
 };
-
 app.initialize();

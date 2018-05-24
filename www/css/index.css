@@ -60,6 +60,12 @@ img {
     height: 80%;
     margin: auto;
 }
+canvas {
+    display: block;
+    padding: 10%;
+    height: 80%;
+    margin: auto;
+}
 /* Landscape layout (with min-width) */
 
 h1 {
