@@ -246,20 +246,27 @@ var app = {
             var imageDataObject = ctx.getImageData(0,0,canvas.width,canvas.height);
             var imageData = imageDataObject.data
             for (index = 0; index < imageData.length; index+=4) {
-                    
-                if ((imageData[index] < RED_CUTOFF) || (imageData[index+1] < GREEN_CUTOFF) || (imageData[index+2] < BLUE_CUTOFF)) {
-                    // console.log("Hue: " + HSV_Data.h + ". Saturation: " + HSV_Data.s + ". Brightness: " + HSV_Data.v);
-                    // (Brightness <= 50) && 
-                    // if ((Hue >= 170 && Hue =< 250) && (Saturation < 10)) {
-                        // ctx.fillStyle = "red";
-                        // ctx.fillRect(i, j, 1, 1);
-                        // ctx.stroke()
-                    count_canopy += 1;
-                } else {
+                var hsvData = rgbToHsv(imageData[index], imageData[index+1], imageData[index+2])
+                if ((hsv[2] >= 50) && ((hsvData[0] >= 170 && hsvData[0] <=255) || (hsvData[1]<=10))) {
                     imageData[index]=255
                     imageData[index+1]=0
                     imageData[index+2]=0
+                } else {
+                    count_canopy += 1;
                 }
+                // if ((imageData[index] < RED_CUTOFF) || (imageData[index+1] < GREEN_CUTOFF) || (imageData[index+2] < BLUE_CUTOFF)) {
+                //     // console.log("Hue: " + HSV_Data.h + ". Saturation: " + HSV_Data.s + ". Brightness: " + HSV_Data.v);
+                //     // (Brightness <= 50) && 
+                //     // if ((Hue >= 170 && Hue =< 250) && (Saturation < 10)) {
+                //         // ctx.fillStyle = "red";
+                //         // ctx.fillRect(i, j, 1, 1);
+                //         // ctx.stroke()
+                //     count_canopy += 1;
+                // } else {
+                //     imageData[index]=255
+                //     imageData[index+1]=0
+                //     imageData[index+2]=0
+                // }
                 
             }
             imageDataObject.data = imageData
