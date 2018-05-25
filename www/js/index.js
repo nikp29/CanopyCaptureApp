@@ -247,7 +247,7 @@ var app = {
             var imageData = imageDataObject.data
             for (index = 0; index < imageData.length; index+=4) {
                 var hsvData = rgbToHsv(imageData[index], imageData[index+1], imageData[index+2]);
-                if (canopyTest(hsvData) == true) {
+                if (canopyTest(hsvData,imageData[index], imageData[index+1], imageData[index+2]) == true) {
                     imageData[index]=255;
                     imageData[index+1]=0;
                     imageData[index+2]=0;
@@ -274,11 +274,20 @@ var app = {
             percent_cover = (count_canopy / total_size) * 100;
             return (percent_cover);
         }
-        function canopyTest(hsv){
-            if (hsv[2] >= .50 && ((hsv[0]*360 >= 170 && hsv[0]*360 <=255)|| (hsv[1] < .25))) {
+        function canopyTest(hsv,r,g,b){
+            // if (hsv[2] >= .50 && ((hsv[0]*360 >= 170 && hsv[0]*360 <=255)|| (hsv[1] < .25))) {
+            //     return true;
+            // } else {
+            //     return false;
+            // }
+            //Detects sky from http://ijcsi.org/papers/IJCSI-10-4-1-222-226.pdf
+            if (abs(r - g)<5 && abs(g - b)<5 && b > t
+            && b>g && b>50 && b<230 ) {
                 return true;
-            } else {
-                return false;
+            }
+            //Detects Clouds
+            else if (hsv[1] < .2 && hsv[2]>=.65) {
+                return true
             }
         }
         function rgbToHsv(r, g, b){
