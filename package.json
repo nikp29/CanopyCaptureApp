@@ -10,6 +10,7 @@
     "author": "Nikhil Patel and Billy Pierce",
     "license": "Apache-2.0",
     "dependencies": {
+        "Math": "0.0.1-security",
         "cordova": "^8.0.0",
         "cordova-android": "^7.1.0",
         "cordova-browser": "^5.0.3",
@@ -26,6 +27,7 @@
         "es6-promise-plugin": "^4.2.2",
         "image-parser": "^1.2.6",
         "lodash": "^4.17.10",
+        "mathjs": "^4.3.0",
         "node": "^10.2.0"
     },
     "cordova": {

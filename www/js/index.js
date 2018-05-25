@@ -246,11 +246,11 @@ var app = {
             var imageDataObject = ctx.getImageData(0,0,canvas.width,canvas.height);
             var imageData = imageDataObject.data
             for (index = 0; index < imageData.length; index+=4) {
-                var hsvData = rgbToHsv(imageData[index], imageData[index+1], imageData[index+2])
-                if ((hsv[2] >= 50) && ((hsvData[0] >= 170 && hsvData[0] <=255) || (hsvData[1]<=10))) {
-                    imageData[index]=255
-                    imageData[index+1]=0
-                    imageData[index+2]=0
+                var hsvData = rgbToHsv(imageData[index], imageData[index+1], imageData[index+2]);
+                if (canopyTest(hsvData) == true) {
+                    imageData[index]=255;
+                    imageData[index+1]=0;
+                    imageData[index+2]=0;
                 } else {
                     count_canopy += 1;
                 }
@@ -269,33 +269,70 @@ var app = {
                 // }
                 
             }
-            imageDataObject.data = imageData
+            imageDataObject.data = imageData;
             ctx.putImageData(imageDataObject,0,0);
             percent_cover = (count_canopy / total_size) * 100;
             return (percent_cover);
         }
-        function rgbToHsv(r, g, b) {  //From https://gist.github.com/mjackson/5311256
-            r /= 255, g /= 255, b /= 255;
-            
-            var max = Math.max(r, g, b), min = Math.min(r, g, b);
-            var h, s, v = max;
-            
+        function canopyTest(hsv){
+            if (hsv[2] >= .50 && ((hsv[0]*360 >= 170 && hsv[0]*360 <=255)|| (hsv[1] < .25))) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        function rgbToHsv(r, g, b){
+            r = r/255;
+            g = g/255;
+            b = b/255;
+            var max = rgbMax(r, g, b);
+            var min = rgbMin(r, g, b);
+            var h = max;
+            var s = max;
+            var v = max;
+        
             var d = max - min;
             s = max == 0 ? 0 : d / max;
-            
-            if (max == min) {
+        
+            if(max == min){
                 h = 0; // achromatic
-            } else {
-                switch (max) {
-                case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-                case g: h = (b - r) / d + 2; break;
-                case b: h = (r - g) / d + 4; break;
+            }else{
+                switch(max){
+                    case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                    case g: h = (b - r) / d + 2; break;
+                    case b: h = (r - g) / d + 4; break;
                 }
-            
                 h /= 6;
             }
-            
-            return [ h, s, v ];
+            return [h, s, v];
+        }
+        function rgbMax(r,g,b){
+            if (r>=g){
+                if (r>=b){
+                    return r
+                }
+                else {
+                    return b
+                }
+            } else if (g>=b) {
+                return g
+            } else {
+                return b
+            }
+        }
+        function rgbMin(r,g,b){
+            if (r<=g){
+                if (r<=b){
+                    return r
+                }
+                else {
+                    return b
+                }
+            } else if (g<=b) {
+                return g
+            } else {
+                return b
+            }
         }
     }
 };
