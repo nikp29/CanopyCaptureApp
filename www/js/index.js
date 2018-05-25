@@ -275,7 +275,7 @@ var app = {
             return (percent_cover);
         }
         function canopyTest(hsv,r,g,b){
-            if (hsv[2] >= .50 && ((hsv[0]*360 >= 170 && hsv[0]*360 <=255)|| (hsv[1] < .25))) {
+            if (hsv[2] >= .3 && ((hsv[0]*360 >= 170 && hsv[0]*360 <=255)|| (hsv[1] < .25))) {
                 return true;
             } else {
                 return false;
