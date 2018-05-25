@@ -122,11 +122,11 @@ var app = {
         var rightIcon = document.getElementById('right-icon');
         if (document.getElementById('analyze-interface').style.display == "none") {
             if (straight) {
-                left.style.color = "rgba(63, 140, 233,0)";
-                right.style.color = "rgba(63, 140, 233,0)";
-                up.style.color = "rgba(63, 140, 233,0)";
-                down.style.color = "rgba(63, 140, 233,0)";
-                border.style.borderColor = "rgba(63, 140, 233,1)";
+                left.style.color = "rgba(237,101,88,0)";
+                right.style.color = "rgba(237,101,88,0)";
+                up.style.color = "rgba(237,101,88,0)";
+                down.style.color = "rgba(237,101,88,0)";
+                border.style.borderColor = "rgba(157, 182, 31,1)";
                 rightIcon.classList.remove("fas");
                 rightIcon.classList.remove("fa-spin");
                 rightIcon.classList.remove("fa-sync");
@@ -136,7 +136,7 @@ var app = {
                 app.receivedEvent('deviceready');
             } else {
                 // this.deviceSynced = false;
-                border.style.borderColor = "rgba(63, 140, 233,0)";
+                border.style.borderColor = "rgba(157, 182, 31,0)";
                 if (rightIcon.classList.contains("fa-spin") == true) {
                 } else {
                     rightIcon.classList.add("fas");
@@ -147,23 +147,23 @@ var app = {
                 }
 
                 if (gamma > 0) { // Left/Right
-                    left.style.color = "rgba(63, 140, 233," + (gamma / 8).toString() + ")"; //Left
-                    right.style.color = "rgba(63, 140, 233,0)";
+                    left.style.color = "rgba(237,101,88," + (gamma / 8).toString() + ")"; //Left
+                    right.style.color = "rgba(237,101,88,0)";
                 } else {
-                    right.style.color = "rgba(63, 140, 233," + (-1 * gamma / 8).toString() + ")"; //Right
-                    left.style.color = "rgba(63, 140, 233,0)";
+                    right.style.color = "rgba(237,101,88," + (-1 * gamma / 8).toString() + ")"; //Right
+                    left.style.color = "rgba(237,101,88,0)";
                 }
 
                 if (beta > 0) { //Up/Down
-                    up.style.color = "rgba(63, 140, 233," + (beta / 8).toString() + ")"; //Down
-                    down.style.color = "rgba(63, 140, 233,0)";
+                    up.style.color = "rgba(237,101,88," + (beta / 8).toString() + ")"; //Down
+                    down.style.color = "rgba(237,101,88,0)";
                 } else {
-                    down.style.color = "rgba(63, 140, 233," + (-1 * beta / 8).toString() + ")"; //Up
-                    up.style.color = "rgba(63, 140, 233,0)";
+                    down.style.color = "rgba(237,101,88," + (-1 * beta / 8).toString() + ")"; //Up
+                    up.style.color = "rgba(237,101,88,0)";
                 }
             }
         } else {
-            border.style.borderColor = "rgba(63, 140, 233,0)";
+            border.style.borderColor = "rgba(157, 182, 31,0)";
             rightIcon.classList.add("fas");
             rightIcon.classList.add("fa-redo");
             rightIcon.classList.remove("far");
@@ -275,20 +275,20 @@ var app = {
             return (percent_cover);
         }
         function canopyTest(hsv,r,g,b){
-            // if (hsv[2] >= .50 && ((hsv[0]*360 >= 170 && hsv[0]*360 <=255)|| (hsv[1] < .25))) {
-            //     return true;
-            // } else {
-            //     return false;
-            // }
-            //Detects sky from http://ijcsi.org/papers/IJCSI-10-4-1-222-226.pdf
-            if (abs(r - g)<5 && abs(g - b)<5 && b > t
-            && b>g && b>50 && b<230 ) {
+            if (hsv[2] >= .50 && ((hsv[0]*360 >= 170 && hsv[0]*360 <=255)|| (hsv[1] < .25))) {
                 return true;
+            } else {
+                return false;
             }
-            //Detects Clouds
-            else if (hsv[1] < .2 && hsv[2]>=.65) {
-                return true
-            }
+            // //Detects sky from http://ijcsi.org/papers/IJCSI-10-4-1-222-226.pdf
+            // if (abs(r - g)<5 && abs(g - b)<5 && b > t
+            // && b>g && b>50 && b<230 ) {
+            //     return true;
+            // }
+            // //Detects Clouds
+            // else if (hsv[1] < .2 && hsv[2]>=.65) {
+            //     return true
+            // }
         }
         function rgbToHsv(r, g, b){
             r = r/255;
