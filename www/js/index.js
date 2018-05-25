@@ -242,6 +242,7 @@ var app = {
             count_canopy = 0;
             var ctx = canvas.getContext('2d');
             total_size = canvas.width * canvas.height;
+            //console.log(Math.abs(-1));
             console.log(total_size);
             var imageDataObject = ctx.getImageData(0,0,canvas.width,canvas.height);
             var imageData = imageDataObject.data
@@ -272,28 +273,32 @@ var app = {
             imageDataObject.data = imageData;
             ctx.putImageData(imageDataObject,0,0);
             percent_cover = (count_canopy / total_size) * 100;
+            
             return (percent_cover);
         }
         function canopyTest(hsv,r,g,b){
-            if (hsv[2] >= .3 && ((hsv[0]*360 >= 170 && hsv[0]*360 <=255)|| (hsv[1] < .25))) {
+
+            if ((hsv[2] >= .15 && (hsv[0]*360 >= 170 && hsv[0]*360 <=255))|| (hsv[2] >= .5 && hsv[1] < .20)) {
                 return true;
             } else {
-                return false;
+                return false
+                //Detects sky from http://ijcsi.org/papers/IJCSI-10-4-1-222-226.pdf
+                // if (Math.abs(r - g)<5 && Math.abs(g - b)<5 && b > r
+                // && b>g && b>50 && b<230 ) {
+                //     return true;
+                // }
+                // //Detects Clouds
+                // else {
+                //     return false;
+                // }
             }
-            // //Detects sky from http://ijcsi.org/papers/IJCSI-10-4-1-222-226.pdf
-            // if (abs(r - g)<5 && abs(g - b)<5 && b > t
-            // && b>g && b>50 && b<230 ) {
-            //     return true;
-            // }
-            // //Detects Clouds
-            // else if (hsv[1] < .2 && hsv[2]>=.65) {
-            //     return true
-            // }
+            
         }
+        
         function rgbToHsv(r, g, b){
-            r = r/255;
-            g = g/255;
-            b = b/255;
+            var r = r/255;
+            var g = g/255;
+            var b = b/255;
             var max = rgbMax(r, g, b);
             var min = rgbMin(r, g, b);
             var h = max;
@@ -301,7 +306,7 @@ var app = {
             var v = max;
         
             var d = max - min;
-            s = max == 0 ? 0 : d / max;
+            var s = max == 0 ? 0 : d / max;
         
             if(max == min){
                 h = 0; // achromatic

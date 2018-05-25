@@ -27,7 +27,6 @@
         "es6-promise-plugin": "^4.2.2",
         "image-parser": "^1.2.6",
         "lodash": "^4.17.10",
-        "mathjs": "^4.3.0",
         "node": "^10.2.0"
     },
     "cordova": {
