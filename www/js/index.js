@@ -122,11 +122,11 @@ var app = {
         var rightIcon = document.getElementById('right-icon');
         if (document.getElementById('analyze-interface').style.display == "none") {
             if (straight) {
-                left.style.color = "rgba(63, 140, 233,0)";
-                right.style.color = "rgba(63, 140, 233,0)";
-                up.style.color = "rgba(63, 140, 233,0)";
-                down.style.color = "rgba(63, 140, 233,0)";
-                border.style.borderColor = "rgba(63, 140, 233,1)";
+                left.style.color = "rgba(237,101,88,0)";
+                right.style.color = "rgba(237,101,88,0)";
+                up.style.color = "rgba(237,101,88,0)";
+                down.style.color = "rgba(237,101,88,0)";
+                border.style.borderColor = "rgba(157, 182, 31,1)";
                 rightIcon.classList.remove("fas");
                 rightIcon.classList.remove("fa-spin");
                 rightIcon.classList.remove("fa-sync");
@@ -136,7 +136,7 @@ var app = {
                 app.receivedEvent('deviceready');
             } else {
                 // this.deviceSynced = false;
-                border.style.borderColor = "rgba(63, 140, 233,0)";
+                border.style.borderColor = "rgba(157, 182, 31,0)";
                 if (rightIcon.classList.contains("fa-spin") == true) {
                 } else {
                     rightIcon.classList.add("fas");
@@ -147,23 +147,23 @@ var app = {
                 }
 
                 if (gamma > 0) { // Left/Right
-                    left.style.color = "rgba(63, 140, 233," + (gamma / 8).toString() + ")"; //Left
-                    right.style.color = "rgba(63, 140, 233,0)";
+                    left.style.color = "rgba(237,101,88," + (gamma / 8).toString() + ")"; //Left
+                    right.style.color = "rgba(237,101,88,0)";
                 } else {
-                    right.style.color = "rgba(63, 140, 233," + (-1 * gamma / 8).toString() + ")"; //Right
-                    left.style.color = "rgba(63, 140, 233,0)";
+                    right.style.color = "rgba(237,101,88," + (-1 * gamma / 8).toString() + ")"; //Right
+                    left.style.color = "rgba(237,101,88,0)";
                 }
 
                 if (beta > 0) { //Up/Down
-                    up.style.color = "rgba(63, 140, 233," + (beta / 8).toString() + ")"; //Down
-                    down.style.color = "rgba(63, 140, 233,0)";
+                    up.style.color = "rgba(237,101,88," + (beta / 8).toString() + ")"; //Down
+                    down.style.color = "rgba(237,101,88,0)";
                 } else {
-                    down.style.color = "rgba(63, 140, 233," + (-1 * beta / 8).toString() + ")"; //Up
-                    up.style.color = "rgba(63, 140, 233,0)";
+                    down.style.color = "rgba(237,101,88," + (-1 * beta / 8).toString() + ")"; //Up
+                    up.style.color = "rgba(237,101,88,0)";
                 }
             }
         } else {
-            border.style.borderColor = "rgba(63, 140, 233,0)";
+            border.style.borderColor = "rgba(157, 182, 31,0)";
             rightIcon.classList.add("fas");
             rightIcon.classList.add("fa-redo");
             rightIcon.classList.remove("far");
@@ -246,49 +246,102 @@ var app = {
             var imageDataObject = ctx.getImageData(0,0,canvas.width,canvas.height);
             var imageData = imageDataObject.data
             for (index = 0; index < imageData.length; index+=4) {
-                    
-                if ((imageData[index] < RED_CUTOFF) || (imageData[index+1] < GREEN_CUTOFF) || (imageData[index+2] < BLUE_CUTOFF)) {
-                    // console.log("Hue: " + HSV_Data.h + ". Saturation: " + HSV_Data.s + ". Brightness: " + HSV_Data.v);
-                    // (Brightness <= 50) && 
-                    // if ((Hue >= 170 && Hue =< 250) && (Saturation < 10)) {
-                        // ctx.fillStyle = "red";
-                        // ctx.fillRect(i, j, 1, 1);
-                        // ctx.stroke()
-                    count_canopy += 1;
+                var hsvData = rgbToHsv(imageData[index], imageData[index+1], imageData[index+2]);
+                if (canopyTest(hsvData,imageData[index], imageData[index+1], imageData[index+2]) == true) {
+                    imageData[index]=255;
+                    imageData[index+1]=0;
+                    imageData[index+2]=0;
                 } else {
-                    imageData[index]=255
-                    imageData[index+1]=0
-                    imageData[index+2]=0
+                    count_canopy += 1;
                 }
+                // if ((imageData[index] < RED_CUTOFF) || (imageData[index+1] < GREEN_CUTOFF) || (imageData[index+2] < BLUE_CUTOFF)) {
+                //     // console.log("Hue: " + HSV_Data.h + ". Saturation: " + HSV_Data.s + ". Brightness: " + HSV_Data.v);
+                //     // (Brightness <= 50) && 
+                //     // if ((Hue >= 170 && Hue =< 250) && (Saturation < 10)) {
+                //         // ctx.fillStyle = "red";
+                //         // ctx.fillRect(i, j, 1, 1);
+                //         // ctx.stroke()
+                //     count_canopy += 1;
+                // } else {
+                //     imageData[index]=255
+                //     imageData[index+1]=0
+                //     imageData[index+2]=0
+                // }
                 
             }
-            imageDataObject.data = imageData
+            imageDataObject.data = imageData;
             ctx.putImageData(imageDataObject,0,0);
             percent_cover = (count_canopy / total_size) * 100;
             return (percent_cover);
         }
-        function rgbToHsv(r, g, b) {  //From https://gist.github.com/mjackson/5311256
-            r /= 255, g /= 255, b /= 255;
-            
-            var max = Math.max(r, g, b), min = Math.min(r, g, b);
-            var h, s, v = max;
-            
+        function canopyTest(hsv,r,g,b){
+            if (hsv[2] >= .50 && ((hsv[0]*360 >= 170 && hsv[0]*360 <=255)|| (hsv[1] < .25))) {
+                return true;
+            } else {
+                return false;
+            }
+            // //Detects sky from http://ijcsi.org/papers/IJCSI-10-4-1-222-226.pdf
+            // if (abs(r - g)<5 && abs(g - b)<5 && b > t
+            // && b>g && b>50 && b<230 ) {
+            //     return true;
+            // }
+            // //Detects Clouds
+            // else if (hsv[1] < .2 && hsv[2]>=.65) {
+            //     return true
+            // }
+        }
+        function rgbToHsv(r, g, b){
+            r = r/255;
+            g = g/255;
+            b = b/255;
+            var max = rgbMax(r, g, b);
+            var min = rgbMin(r, g, b);
+            var h = max;
+            var s = max;
+            var v = max;
+        
             var d = max - min;
             s = max == 0 ? 0 : d / max;
-            
-            if (max == min) {
+        
+            if(max == min){
                 h = 0; // achromatic
-            } else {
-                switch (max) {
-                case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-                case g: h = (b - r) / d + 2; break;
-                case b: h = (r - g) / d + 4; break;
+            }else{
+                switch(max){
+                    case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                    case g: h = (b - r) / d + 2; break;
+                    case b: h = (r - g) / d + 4; break;
                 }
-            
                 h /= 6;
             }
-            
-            return [ h, s, v ];
+            return [h, s, v];
+        }
+        function rgbMax(r,g,b){
+            if (r>=g){
+                if (r>=b){
+                    return r
+                }
+                else {
+                    return b
+                }
+            } else if (g>=b) {
+                return g
+            } else {
+                return b
+            }
+        }
+        function rgbMin(r,g,b){
+            if (r<=g){
+                if (r<=b){
+                    return r
+                }
+                else {
+                    return b
+                }
+            } else if (g<=b) {
+                return g
+            } else {
+                return b
+            }
         }
     }
 };

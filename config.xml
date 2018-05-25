@@ -3,7 +3,6 @@
     <name>eDensiometer</name>
     <description>        A mobile application that works as a digital densiometer.    </description>
     <author email="nikp29@gmail.com" href="http://cordova.io">        Billy Pierce and Nikhil Patel    </author>
-    <!-- Copyright 2018, Nikhil Patel and Billy Pierce. All Rights Reserved. -->
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
