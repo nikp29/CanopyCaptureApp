@@ -73,7 +73,7 @@ var app = {
         var down = document.getElementById('down');
         var border = document.getElementById("border");
 
-        var straight = Math.abs(beta) < 2.5 && Math.abs(gamma) < 2.5; // If phone rotation is within 2.5 degrees, count it as striaght.
+        var straight = Math.abs(beta) < 2 && Math.abs(gamma) < 2; // If phone rotation is within 2.5 degrees, count it as striaght.
         var rightIcon = document.getElementById('right-icon');
         if (document.getElementById('analyze-interface').style.display == "none") { // If in the camera interface.
             if (straight) { // If straight.
@@ -88,7 +88,7 @@ var app = {
                 rightIcon.classList.remove("fa-sync");
                 rightIcon.classList.add("far");
                 rightIcon.classList.add("fa-check-circle");
-                app.receivedEvent('deviceready'); // Set "deviceready" to received.
+                // app.receivedEvent('deviceready'); // Set "deviceready" to received.
             } else {
                 border.style.borderColor = "rgba(157, 182, 31,0)"; // Reset the border
                 if (!rightIcon.classList.contains("fa-spin")) { // If the top-right icon isn't already spinning, make it spin.
@@ -148,7 +148,10 @@ var app = {
 
     takePhoto: function() {
         if (document.getElementById('right-icon').classList.contains("fa-check-circle") == true) { // If the phone is straight.
-            CameraPreview.takePicture(cameraSuccess('data:image/jpeg;base64,' + base64PictureData));
+            CameraPreview.takePicture(function(base64PictureData) {
+                imageSrcData = 'data:image/jpeg;base64,' + base64PictureData;
+                cameraSuccess(imageSrcData);
+            });
         }
 
         function cameraSuccess(imageURI) {
