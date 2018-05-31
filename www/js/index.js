@@ -199,9 +199,9 @@ var app = {
                     count_canopy += 1;
                 } else {
                     // Set non-canopy to red.
-                    imageData[index] = 255;
-                    imageData[index + 1] = 0;
-                    imageData[index + 2] = 0;
+                    imageData[index] = 59;
+                    imageData[index + 1] = 115;
+                    imageData[index + 2] = 208;
                 }
             }
             imageDataObject.data = imageData; // Set the image data to match the color filtering change.
