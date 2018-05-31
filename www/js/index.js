@@ -77,11 +77,11 @@ var app = {
         var rightIcon = document.getElementById('right-icon');
         if (document.getElementById('analyze-interface').style.display == "none") { // If in the camera interface.
             if (straight) { // If straight.
-                left.style.color = "rgba(237,101,88,0)"; // Set the opacity of the arrows to 0.
-                right.style.color = "rgba(237,101,88,0)";
-                up.style.color = "rgba(237,101,88,0)";
-                down.style.color = "rgba(237,101,88,0)";
-                border.style.borderColor = "rgba(157, 182, 31,1)"; // Light up the sides of the display.
+                left.style.color = "rgba(155,199,36,0)"; // Set the opacity of the arrows to 0.
+                right.style.color = "rgba(155,199,36,0)";
+                up.style.color = "rgba(155,199,36,0)";
+                down.style.color = "rgba(155,199,36,0)";
+                border.style.borderColor = "rgba(155,199,36,1)"; // Light up the sides of the display.
                 // Set the top-right icon to a check if straight.
                 rightIcon.classList.remove("fas");
                 rightIcon.classList.remove("fa-spin");
@@ -90,7 +90,7 @@ var app = {
                 rightIcon.classList.add("fa-check-circle");
                 // app.receivedEvent('deviceready'); // Set "deviceready" to received.
             } else {
-                border.style.borderColor = "rgba(157, 182, 31,0)"; // Reset the border
+                border.style.borderColor = "rgba(155,199,36,0)"; // Reset the border
                 if (!rightIcon.classList.contains("fa-spin")) { // If the top-right icon isn't already spinning, make it spin.
                     rightIcon.classList.add("fas");
                     rightIcon.classList.add("fa-spin");
@@ -101,26 +101,26 @@ var app = {
 
                 if (gamma > 0) { // Set the Left/Right arrows based on the angle
                     // Phone titled to the right.
-                    left.style.color = "rgba(237,101,88," + (gamma / 8).toString() + ")"; //Left
-                    right.style.color = "rgba(237,101,88,0)";
+                    left.style.color = "rgba(155,199,36," + (gamma / 8).toString() + ")"; //Left
+                    right.style.color = "rgba(155,199,36,0)";
                 } else {
                     // Phone titled to the left.
-                    right.style.color = "rgba(237,101,88," + (-1 * gamma / 8).toString() + ")"; //Right
-                    left.style.color = "rgba(237,101,88,0)";
+                    right.style.color = "rgba(155,199,36," + (-1 * gamma / 8).toString() + ")"; //Right
+                    left.style.color = "rgba(155,199,36,0)";
                 }
 
                 if (beta > 0) { // Set the Up/Down arrows based on the angle
                     // Phone titled towards the user.
-                    up.style.color = "rgba(237,101,88," + (beta / 8).toString() + ")"; //Up
-                    down.style.color = "rgba(237,101,88,0)";
+                    up.style.color = "rgba(155,199,36," + (beta / 8).toString() + ")"; //Up
+                    down.style.color = "rgba(155,199,36,0)";
                 } else {
                     // Phone titled away from the user.
-                    down.style.color = "rgba(237,101,88," + (-1 * beta / 8).toString() + ")"; //Down
-                    up.style.color = "rgba(237,101,88,0)";
+                    down.style.color = "rgba(155,199,36," + (-1 * beta / 8).toString() + ")"; //Down
+                    up.style.color = "rgba(155,199,36,0)";
                 }
             }
         } else {
-            border.style.borderColor = "rgba(157, 182, 31,0)"; // If analyze-view, remove border.
+            border.style.borderColor = "rgba(155,199,36,0)"; // If analyze-view, remove border.
             rightIcon.classList.add("fas"); // Change top-right for resetting option.
             rightIcon.classList.add("fa-redo");
             rightIcon.classList.remove("far");
