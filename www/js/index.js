@@ -1,59 +1,15 @@
 // Copyright 2018, Nikhil Patel and Billy Pierce. All Rights Reserved.
 var app = {
     // Application Constructor
-    initialize: function() {
+    initialize: function() { // Add Events listener once the application is initialized.
         document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
         document.getElementById("border").addEventListener('click', this.takePhoto);
         document.getElementById("right-navbar").addEventListener('click', this.restartCameraView);
-        // this.initCameraView();
     },
-    // deviceSynced: Boolean() = false,
-    // 0 == 
-    // deviceready Event Handler
-    //
     // Bind any cordova events here. Common events are:
     // 'pause', 'resume', etc.
     // Update DOM on a Received Event
-    newDataPoint: function(coverVal) {
-        window.requestFileSystem(window.TEMPORARY, 5 * 1024 * 1024, function (fs) {
-
-            console.log('file system open: ' + fs.name);
-            createFile(fs.root, "newTempFile.txt", false);
-        
-        }, onErrorLoadFs);
-        function createFile(dirEntry, fileName, isAppend) {
-            // Creates a new file or returns the file if it already exists.
-            dirEntry.getFile(fileName, {create: true, exclusive: false}, function(fileEntry) {
-        
-                writeFile(fileEntry, null, isAppend);
-        
-            }, onErrorCreateFile);
-        
-        }
-        function writeFile(fileEntry, dataObj) {
-            // Create a FileWriter object for our FileEntry (log.txt).
-            fileEntry.createWriter(function (fileWriter) {
-        
-                fileWriter.onwriteend = function() {
-                    console.log("Successful file write...");
-                    readFile(fileEntry);
-                };
-        
-                fileWriter.onerror = function (e) {
-                    console.log("Failed file write: " + e.toString());
-                };
-        
-                // If data object is not passed in,
-                // create a new Blob instead.
-                if (!dataObj) {
-                    dataObj = new Blob(['some file data'], { type: 'text/plain' });
-                }
-        
-                fileWriter.write(dataObj);
-            });
-        }
-    },
-    receivedEvent: function(id) {
+    receivedEvent: function(id) { // Take a received element and change the display of its various elements
         var parentElement = document.getElementById(id);
         var listeningElement = parentElement.querySelector('.listening');
         var receivedElement = parentElement.querySelector('.received');
@@ -66,29 +22,29 @@ var app = {
         var options = {
             frequency: 10
         }; // Update every .05 seconds
-        this.startCameraAbove();
-        window.addEventListener("deviceorientation", this.handleOrientation, true);
-        screen.orientation.lock('portrait-primary');
-        var cameraView = document.getElementById('camera-interface');
+        this.startCameraAbove(); // Start the Camera.
+        window.addEventListener("deviceorientation", this.handleOrientation, true); // Handle the device orientation.
+        screen.orientation.lock('portrait-primary'); // Lock to straight orientation
+        var cameraView = document.getElementById('camera-interface'); //Default to camera view.
         cameraView.style.display = "block";
         var analyzeView = document.getElementById('analyze-interface');
         analyzeView.style.display = "none";
-        CameraPreview.show();
+        CameraPreview.show(); // Start the active camera preview
         document.getElementById("border").style.position = "absolute";
         document.getElementById("border").style.display = "block";
     },
 
     restartCameraView: function() {
 
-        window.addEventListener("deviceorientation", this.handleOrientation, true);
+        window.addEventListener("deviceorientation", this.handleOrientation, true); // When the camera is restarted, readd the event listener.
         var image = document.getElementById('my-image');
-        image.src = "#";
+        image.src = "#"; // Reset the image source.
         var canvas = document.getElementById("canvasMan");
         canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+        // Reset to camera view (per the function name)
         var analyzeView = document.getElementById('analyze-interface');
         var cameraView = document.getElementById('camera-interface');
         var rightIcon = document.getElementById('right-icon')
-        
         cameraView.style.display = "block";
         cameraView.style.color = "rgba(0,0,0,0)";
         document.getElementById("border").style.position = "absolute";
@@ -98,15 +54,14 @@ var app = {
         CameraPreview.show();
 
     },
-    initAnalyzeView: function() {
-        //window.removeEventListener("deviceorientation", this.handleOrientation, true);
+    initAnalyzeView: function() { // Initialize a view of the camera.
         var cameraView = document.getElementById('camera-interface');
         cameraView.style.display = "none";
         var analyzeView = document.getElementById('analyze-interface');
         analyzeView.style.display = "block";
 
     },
-    handleOrientation: function(event) {
+    handleOrientation: function(event) { // When the image orients, deal with it.
         var absolute = event.absolute;
         var alpha = event.alpha; // yaw
         var beta = event.beta; // pitch
@@ -118,27 +73,25 @@ var app = {
         var down = document.getElementById('down');
         var border = document.getElementById("border");
 
-        var straight = Math.abs(beta) < 2 && Math.abs(gamma) < 2;
+        var straight = Math.abs(beta) < 2 && Math.abs(gamma) < 2; // If phone rotation is within 2.5 degrees, count it as striaght.
         var rightIcon = document.getElementById('right-icon');
-        if (document.getElementById('analyze-interface').style.display == "none") {
-            if (straight) {
-                left.style.color = "rgba(155,199,36,0)";
+        if (document.getElementById('analyze-interface').style.display == "none") { // If in the camera interface.
+            if (straight) { // If straight.
+                left.style.color = "rgba(155,199,36,0)"; // Set the opacity of the arrows to 0.
                 right.style.color = "rgba(155,199,36,0)";
                 up.style.color = "rgba(155,199,36,0)";
                 down.style.color = "rgba(155,199,36,0)";
-                border.style.borderColor = "rgba(155,199,36,1)";
+                border.style.borderColor = "rgba(155,199,36,1)"; // Light up the sides of the display.
+                // Set the top-right icon to a check if straight.
                 rightIcon.classList.remove("fas");
                 rightIcon.classList.remove("fa-spin");
                 rightIcon.classList.remove("fa-sync");
                 rightIcon.classList.add("far");
                 rightIcon.classList.add("fa-check-circle");
-                // this.deviceSynced = true;
-                app.receivedEvent('deviceready');
+                // app.receivedEvent('deviceready'); // Set "deviceready" to received.
             } else {
-                // this.deviceSynced = false;
-                border.style.borderColor = "rgba(155,199,36,0)";
-                if (rightIcon.classList.contains("fa-spin") == true) {
-                } else {
+                border.style.borderColor = "rgba(155,199,36,0)"; // Reset the border
+                if (!rightIcon.classList.contains("fa-spin")) { // If the top-right icon isn't already spinning, make it spin.
                     rightIcon.classList.add("fas");
                     rightIcon.classList.add("fa-spin");
                     rightIcon.classList.add("fa-sync");
@@ -146,25 +99,29 @@ var app = {
                     rightIcon.classList.remove("fa-check-circle");
                 }
 
-                if (gamma > 0) { // Left/Right
+                if (gamma > 0) { // Set the Left/Right arrows based on the angle
+                    // Phone titled to the right.
                     left.style.color = "rgba(155,199,36," + (gamma / 8).toString() + ")"; //Left
                     right.style.color = "rgba(155,199,36,0)";
                 } else {
+                    // Phone titled to the left.
                     right.style.color = "rgba(155,199,36," + (-1 * gamma / 8).toString() + ")"; //Right
                     left.style.color = "rgba(155,199,36,0)";
                 }
 
-                if (beta > 0) { //Up/Down
-                    up.style.color = "rgba(155,199,36," + (beta / 8).toString() + ")"; //Down
+                if (beta > 0) { // Set the Up/Down arrows based on the angle
+                    // Phone titled towards the user.
+                    up.style.color = "rgba(155,199,36," + (beta / 8).toString() + ")"; //Up
                     down.style.color = "rgba(155,199,36,0)";
                 } else {
-                    down.style.color = "rgba(155,199,36," + (-1 * beta / 8).toString() + ")"; //Up
+                    // Phone titled away from the user.
+                    down.style.color = "rgba(155,199,36," + (-1 * beta / 8).toString() + ")"; //Down
                     up.style.color = "rgba(155,199,36,0)";
                 }
             }
         } else {
-            border.style.borderColor = "rgba(155,199,36,0)";
-            rightIcon.classList.add("fas");
+            border.style.borderColor = "rgba(155,199,36,0)"; // If analyze-view, remove border.
+            rightIcon.classList.add("fas"); // Change top-right for resetting option.
             rightIcon.classList.add("fa-redo");
             rightIcon.classList.remove("far");
             rightIcon.classList.remove("fa-check-circle");
@@ -172,181 +129,122 @@ var app = {
 
 
     },
-    startCameraAbove: function() {
-        CameraPreview.startCamera({ x: 0, y: (window.screen.height * .1), width: window.screen.width, height: (window.screen.height * .9), toBack: true, previewDrag: false, tapPhoto: false });
-        CameraPreview.setFlashMode(CameraPreview.FLASH_MODE.OFF);
+    startCameraAbove: function() { // Start the camera preview.
+        CameraPreview.startCamera({
+            x: 0,
+            y: (window.screen.height * .1),
+            width: window.screen.width,
+            height: (window.screen.height * .9),
+            toBack: true,
+            previewDrag: false,
+            tapPhoto: false
+        });
+        CameraPreview.setFlashMode(CameraPreview.FLASH_MODE.OFF); // Turn off the flash.
     },
 
-    stopCamera: function() {
+    stopCamera: function() { // Stop the camera.
         CameraPreview.stopCamera();
     },
 
     takePhoto: function() {
-        console.log("recognized func");
-        if (document.getElementById('right-icon').classList.contains("fa-check-circle") == true) {
-            console.log("eventtriggered");
+        if (document.getElementById('right-icon').classList.contains("fa-check-circle") == true) { // If the phone is straight.
             CameraPreview.takePicture(function(base64PictureData) {
-                /* code here */
-                
                 imageSrcData = 'data:image/jpeg;base64,' + base64PictureData;
-                console.log("1")
                 cameraSuccess(imageSrcData);
             });
         }
 
         function cameraSuccess(imageURI) {
-            // import ImageParser from 'js/image-parser.js';
             // Display the image we just took,  replace the picture taking element with a restart 
             // button, and give the canopy cover value
-            console.log("2");
-
             var image = document.getElementById('my-image');
             var analyzeView = document.getElementById('analyze-interface');
             var cameraView = document.getElementById('camera-interface');
             cameraView.style.display = "none";
             cameraView.style.color = "rgba(0,0,0,0)";
+            // Set to analyze view.
             document.getElementById("border").style.position = "static";
             document.getElementById("border").style.display = "none";
             document.getElementById("main-text").innerHTML = "Calculating";
             analyzeView.style.display = "block";
-            console.log("3");
-            CameraPreview.hide();
+            CameraPreview.hide(); // Hide the camera preview.
             // Image Working
-            console.log("4");
             image.src = imageURI;
-            console.log("5");
             image.onload = function() {
-                setupCanvas(image);
+                setupCanvas(image); // Setup the canvas from the loaded image.
             };
-            
-
         }
+
         function setupCanvas(image) {
-            console.log("settingUp");
-            var canvas = document.getElementById("canvasMan");
-            canvas.width = image.width;
+            var canvas = document.getElementById("canvasMan"); // Load our canvas.
+            canvas.width = image.width; // Set the canvas width/height to match the image.
             canvas.height = image.height;
             var ctx = canvas.getContext('2d');
             ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-            percent_cover = processPhoto(canvas);
-            canvas.style = image.style;
+            percent_cover = processPhoto(canvas); // Calculate the percentcover from the canvas.
+            canvas.style = image.style; // Set the canvas and image to the same style.
             document.getElementById("main-text").innerHTML = percent_cover.toFixed(2) + "% Canopy Cover";
             image.style.display = "none";
         }
-            
-        function processPhoto(canvas) {
-            var percent_cover = 0.00;
-            var RED_CUTOFF = 0;
-            var GREEN_CUTOFF = 0;
-            var BLUE_CUTOFF = 200;
-            count_canopy = 0;
+
+        function processPhoto(canvas) { // Process the photo
+            var count_canopy = 0;
             var ctx = canvas.getContext('2d');
             total_size = canvas.width * canvas.height;
-            //console.log(Math.abs(-1));
-            console.log(total_size);
-            var imageDataObject = ctx.getImageData(0,0,canvas.width,canvas.height);
-            var imageData = imageDataObject.data
-            for (index = 0; index < imageData.length; index+=4) {
-                var hsvData = rgbToHsv(imageData[index], imageData[index+1], imageData[index+2]);
-                if (canopyTest(hsvData,imageData[index], imageData[index+1], imageData[index+2]) == true) {
-                    imageData[index]=59;
-                    imageData[index+1]=115;
-                    imageData[index+2]=208;
-                } else {
+            var imageDataObject = ctx.getImageData(0, 0, canvas.width, canvas.height); // Get image data from the canvas.
+            var imageData = imageDataObject.data;
+            for (index = 0; index < imageData.length; index += 4) { // Cycle through the image data in sets of RGBA
+                var hsvData = rgbToHsv(imageData[index], imageData[index + 1], imageData[index + 2]); // Convert RGB to HSV for more accurate filtering.
+                if (canopyTest(hsvData)) { // Test the individual pixel.
                     count_canopy += 1;
+                } else {
+                    // Set non-canopy to red.
+                    imageData[index] = 255;
+                    imageData[index + 1] = 0;
+                    imageData[index + 2] = 0;
                 }
-                // if ((imageData[index] < RED_CUTOFF) || (imageData[index+1] < GREEN_CUTOFF) || (imageData[index+2] < BLUE_CUTOFF)) {
-                //     // console.log("Hue: " + HSV_Data.h + ". Saturation: " + HSV_Data.s + ". Brightness: " + HSV_Data.v);
-                //     // (Brightness <= 50) && 
-                //     // if ((Hue >= 170 && Hue =< 250) && (Saturation < 10)) {
-                //         // ctx.fillStyle = "red";
-                //         // ctx.fillRect(i, j, 1, 1);
-                //         // ctx.stroke()
-                //     count_canopy += 1;
-                // } else {
-                //     imageData[index]=255
-                //     imageData[index+1]=0
-                //     imageData[index+2]=0
-                // }
-                
             }
-            imageDataObject.data = imageData;
-            ctx.putImageData(imageDataObject,0,0);
-            percent_cover = (count_canopy / total_size) * 100;
-            
-            return (percent_cover);
+            imageDataObject.data = imageData; // Set the image data to match the color filtering change.
+            ctx.putImageData(imageDataObject, 0, 0); // Update the canvas.
+            return (count_canopy / total_size) * 100; // Return the percent cover.
         }
-        function canopyTest(hsv,r,g,b){
 
-            if ((hsv[2] >= .15 && (hsv[0]*360 >= 170 && hsv[0]*360 <=255))|| (hsv[2] >= .7 && hsv[1] < .20)) {
-                return true;
+        function canopyTest(hsv) { //Detects sky from http://ijcsi.org/papers/IJCSI-10-4-1-222-226.pdf
+            if ((hsv[2] >= .15 && (hsv[0] * 360 >= 170 && hsv[0] * 360 <= 255)) || (hsv[2] >= .5 && hsv[1] < .20)) {
+                return false;
             } else {
-                return false
-                //Detects sky from http://ijcsi.org/papers/IJCSI-10-4-1-222-226.pdf
-                // if (Math.abs(r - g)<5 && Math.abs(g - b)<5 && b > r
-                // && b>g && b>50 && b<230 ) {
-                //     return true;
-                // }
-                // //Detects Clouds
-                // else {
-                //     return false;
-                // }
+                return true;
             }
-            
         }
-        
-        function rgbToHsv(r, g, b){
-            var r = r/255;
-            var g = g/255;
-            var b = b/255;
-            var max = rgbMax(r, g, b);
-            var min = rgbMin(r, g, b);
-            var h = max;
-            var s = max;
+
+        function rgbToHsv(r, g, b) { // Convert RGB to HSV
+            // Rescale RGB from 0-1
+            var r = r / 255;
+            var g = g / 255;
+            var b = b / 255;
+            var max = Math.max(r, g, b);
+            var min = Math.min(r, g, b);
             var v = max;
-        
             var d = max - min;
             var s = max == 0 ? 0 : d / max;
-        
-            if(max == min){
+
+            if (max == min) {
                 h = 0; // achromatic
-            }else{
-                switch(max){
-                    case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-                    case g: h = (b - r) / d + 2; break;
-                    case b: h = (r - g) / d + 4; break;
+            } else {
+                switch (max) {
+                    case r: // If red is the biggest value.
+                        h = (g - b) / d + (g < b ? 6 : 0);
+                        break;
+                    case g: // If green is the biggest value
+                        h = (b - r) / d + 2;
+                        break;
+                    case b: // If blue is the biggest value.
+                        h = (r - g) / d + 4;
+                        break;
                 }
                 h /= 6;
             }
             return [h, s, v];
-        }
-        function rgbMax(r,g,b){
-            if (r>=g){
-                if (r>=b){
-                    return r
-                }
-                else {
-                    return b
-                }
-            } else if (g>=b) {
-                return g
-            } else {
-                return b
-            }
-        }
-        function rgbMin(r,g,b){
-            if (r<=g){
-                if (r<=b){
-                    return r
-                }
-                else {
-                    return b
-                }
-            } else if (g<=b) {
-                return g
-            } else {
-                return b
-            }
         }
     }
 };
