@@ -75,6 +75,15 @@ var app = {
 
         var straight = Math.abs(beta) < 2 && Math.abs(gamma) < 2; // If phone rotation is within 2.5 degrees, count it as striaght.
         var rightIcon = document.getElementById('right-icon');
+<<<<<<< HEAD
+        if (document.getElementById('analyze-interface').style.display == "none") {
+            if (straight) {
+                left.style.color = "rgba(155,199,36,0)";
+                right.style.color = "rgba(155,199,36,0)";
+                up.style.color = "rgba(155,199,36,0)";
+                down.style.color = "rgba(155,199,36,0)";
+                border.style.borderColor = "rgba(155,199,36,1)";
+=======
         if (document.getElementById('analyze-interface').style.display == "none") { // If in the camera interface.
             if (straight) { // If straight.
                 left.style.color = "rgba(155,199,36,0)"; // Set the opacity of the arrows to 0.
@@ -83,6 +92,7 @@ var app = {
                 down.style.color = "rgba(155,199,36,0)";
                 border.style.borderColor = "rgba(155,199,36,1)"; // Light up the sides of the display.
                 // Set the top-right icon to a check if straight.
+>>>>>>> refactor
                 rightIcon.classList.remove("fas");
                 rightIcon.classList.remove("fa-spin");
                 rightIcon.classList.remove("fa-sync");
@@ -90,8 +100,15 @@ var app = {
                 rightIcon.classList.add("fa-check-circle");
                 // app.receivedEvent('deviceready'); // Set "deviceready" to received.
             } else {
+<<<<<<< HEAD
+                // this.deviceSynced = false;
+                border.style.borderColor = "rgba(155,199,36,0)";
+                if (rightIcon.classList.contains("fa-spin") == true) {
+                } else {
+=======
                 border.style.borderColor = "rgba(155,199,36,0)"; // Reset the border
                 if (!rightIcon.classList.contains("fa-spin")) { // If the top-right icon isn't already spinning, make it spin.
+>>>>>>> refactor
                     rightIcon.classList.add("fas");
                     rightIcon.classList.add("fa-spin");
                     rightIcon.classList.add("fa-sync");
@@ -210,7 +227,7 @@ var app = {
         }
 
         function canopyTest(hsv) { //Detects sky from http://ijcsi.org/papers/IJCSI-10-4-1-222-226.pdf
-            if ((hsv[2] >= .15 && (hsv[0] * 360 >= 170 && hsv[0] * 360 <= 255)) || (hsv[2] >= .5 && hsv[1] < .20)) {
+            if ((hsv[2] >= .15 && (hsv[0] * 360 >= 170 && hsv[0] * 360 <= 255)) || (hsv[2] >= .7 && hsv[1] < .20)) {
                 return false;
             } else {
                 return true;
