@@ -227,7 +227,7 @@ var app = {
         }
 
         function canopyTest(hsv) { //Detects sky from http://ijcsi.org/papers/IJCSI-10-4-1-222-226.pdf
-            if ((hsv[2] >= .15 && (hsv[0] * 360 >= 170 && hsv[0] * 360 <= 255)) || (hsv[2] >= .7 && hsv[1] < .20)) {
+            if ((hsv[2] >= .15 && (hsv[0] * 360 >= 170 && hsv[0] * 360 <= 255)) || (hsv[2] >= .7 && hsv[1] < .10)) {
                 return false;
             } else {
                 return true;
