@@ -125,7 +125,7 @@ table {
 .nav-button {
     text-align: center;
     padding: 0px 10px;
-    color: #3f8ce9;
+    color: #9BC724;
     -webkit-transition: color .05s; /* Safari */
     transition: color .05s;
 }
@@ -140,14 +140,14 @@ table {
     right: 0px;
     top: 50%;
     z-index: 10;
-    color: rgba(237,101,88,.01);
+    color: rgba(155,199,36,.01);
 }
 #left{
     position: absolute;
     left: 0px;
     top: 50%;
     z-index: 10;
-    color: rgba(237,101,88,.01);
+    color: rgba(155,199,36,.01);
 }
 #analyze-interface {
     background-color: lightgray;
@@ -169,21 +169,21 @@ table {
     left: calc(50% - 23.625px);
     top: 65px;
     z-index: 10;
-    color: rgba(237,101,88,0.1);
+    color: rgba(155,199,36,0.1);
 }
 #down{
     position: absolute;
     left: calc(50% - 23.625px);
     bottom: 0px;
     z-index: 10;
-    color: rgba(237,101,88,0.1);
+    color: rgba(155,199,36,0.1);
 }
 #border{
     
     position: absolute;
     border-width: 10px;
     border-style: solid;
-    border-color: rgba(157, 182, 31,0.1);
+    border-color: rgba(155,199,36,0.1);
     top: 65px;
     bottom: 0%;
     left: 0%;
