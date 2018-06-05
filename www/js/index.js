@@ -72,16 +72,28 @@ var app = {
         var up = document.getElementById('up');
         var down = document.getElementById('down');
         var border = document.getElementById("border");
+        var prompt1 = document.getElementById("prompt-text1");
+        var prompt2 = document.getElementById("prompt-text2");
+        var promptBox = document.getElementById('prompt-box');
 
         var straight = Math.abs(beta) < 2 && Math.abs(gamma) < 2; // If phone rotation is within 2.5 degrees, count it as striaght.
         var rightIcon = document.getElementById('right-icon');
         if (document.getElementById('analyze-interface').style.display == "none") { // If in the camera interface.
+            
+            promptBox.style.backgroundColor = "rgba(100,147,100,1)";
+            promptBox.style.color = "rgba(255,255,1)";
+            prompt1.style.color = "rgba(255,255,255,1)";
+            prompt2.style.color = "rgba(255,255,255,1)";
+            
             if (straight) { // If straight.
-                left.style.color = "rgba(155,199,36,0)"; // Set the opacity of the arrows to 0.
-                right.style.color = "rgba(155,199,36,0)";
-                up.style.color = "rgba(155,199,36,0)";
-                down.style.color = "rgba(155,199,36,0)";
-                border.style.borderColor = "rgba(155,199,36,1)"; // Light up the sides of the display.
+                prompt1.innerText = "Tap anywhere on camera";
+                prompt2.innerText = "view to capture photo";
+                promptBox.style.left = "calc(50% - 218.13px/2)";
+                left.style.color = "rgba(100,147,100,0)"; // Set the opacity of the arrows to 0.
+                right.style.color = "rgba(100,147,100,0)";
+                up.style.color = "rgba(100,147,100,0)";
+                down.style.color = "rgba(100,147,100,0)";
+                border.style.borderColor = "rgba(100,147,100,1)"; // Light up the sides of the display.
                 // Set the top-right icon to a check if straight.
                 rightIcon.classList.remove("fas");
                 rightIcon.classList.remove("fa-spin");
@@ -90,7 +102,10 @@ var app = {
                 rightIcon.classList.add("fa-check-circle");
                 // app.receivedEvent('deviceready'); // Set "deviceready" to received.
             } else {
-                border.style.borderColor = "rgba(155,199,36,0)"; // Reset the border
+                border.style.borderColor = "rgba(100,147,100,0)"; // Reset the border
+                prompt1.innerText = "Follow the guiding arrows to";
+                prompt2.innerText = "tilt phone until it is level";
+                promptBox.style.left = "calc(50% - 240.13px/2)";
                 if (!rightIcon.classList.contains("fa-spin")) { // If the top-right icon isn't already spinning, make it spin.
                     rightIcon.classList.add("fas");
                     rightIcon.classList.add("fa-spin");
@@ -101,26 +116,26 @@ var app = {
 
                 if (gamma > 0) { // Set the Left/Right arrows based on the angle
                     // Phone titled to the right.
-                    left.style.color = "rgba(155,199,36," + (gamma / 8).toString() + ")"; //Left
-                    right.style.color = "rgba(155,199,36,0)";
+                    left.style.color = "rgba(100,147,100," + (gamma / 8).toString() + ")"; //Left
+                    right.style.color = "rgba(100,147,100,0)";
                 } else {
                     // Phone titled to the left.
-                    right.style.color = "rgba(155,199,36," + (-1 * gamma / 8).toString() + ")"; //Right
-                    left.style.color = "rgba(155,199,36,0)";
+                    right.style.color = "rgba(100,147,100," + (-1 * gamma / 8).toString() + ")"; //Right
+                    left.style.color = "rgba(100,147,100,0)";
                 }
 
                 if (beta > 0) { // Set the Up/Down arrows based on the angle
                     // Phone titled towards the user.
-                    up.style.color = "rgba(155,199,36," + (beta / 8).toString() + ")"; //Up
-                    down.style.color = "rgba(155,199,36,0)";
+                    up.style.color = "rgba(100,147,100," + (beta / 8).toString() + ")"; //Up
+                    down.style.color = "rgba(100,147,100,0)";
                 } else {
                     // Phone titled away from the user.
-                    down.style.color = "rgba(155,199,36," + (-1 * beta / 8).toString() + ")"; //Down
-                    up.style.color = "rgba(155,199,36,0)";
+                    down.style.color = "rgba(100,147,100," + (-1 * beta / 8).toString() + ")"; //Down
+                    up.style.color = "rgba(100,147,100,0)";
                 }
             }
         } else {
-            border.style.borderColor = "rgba(155,199,36,0)"; // If analyze-view, remove border.
+            border.style.borderColor = "rgba(100,147,100,0)"; // If analyze-view, remove border.
             rightIcon.classList.add("fas"); // Change top-right for resetting option.
             rightIcon.classList.add("fa-redo");
             rightIcon.classList.remove("far");
@@ -160,6 +175,13 @@ var app = {
             var image = document.getElementById('my-image');
             var analyzeView = document.getElementById('analyze-interface');
             var cameraView = document.getElementById('camera-interface');
+            var promptBox = document.getElementById('prompt-box');
+            var prompt1 = document.getElementById("prompt-text1");
+            var prompt2 = document.getElementById("prompt-text2");
+            promptBox.style.backgroundColor = "rgba(100,147,100,0)";
+            promptBox.style.color = "rgba(255,255,255,0)";
+            prompt1.style.color = "rgba(255,255,255,0)";
+            prompt2.style.color = "rgba(255,255,255,0)";
             cameraView.style.display = "none";
             cameraView.style.color = "rgba(0,0,0,0)";
             // Set to analyze view.
@@ -216,7 +238,7 @@ var app = {
         }
 
         function canopyTest(hsv) { //Detects sky from http://ijcsi.org/papers/IJCSI-10-4-1-222-226.pdf
-            if (hsv[2] >= .25 && (hsv[0] * 360 >= 180 && hsv[0] * 360 <= 255)) {
+            if (hsv[2] >= .55 && (hsv[0] * 360 >= 190 && hsv[0] * 360 <= 255)) {
                 return 1;
             } else if (hsv[2] >= .7 && hsv[1] < .15) {
                 return 0;
