@@ -236,9 +236,9 @@ var app = {
 
         function canopyTest(hsv) { //Detects sky from http://ijcsi.org/papers/IJCSI-10-4-1-222-226.pdf
             if (hsv[2] >= .55 && (hsv[0] * 360 >= 190 && hsv[0] * 360 <= 255)) {
-                return 1;
+                return 2;
             } else if (hsv[2] >= .7 && hsv[1] < .15) {
-                return 0;
+                return 2;
             }
             else {
                 return 0

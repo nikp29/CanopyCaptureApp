@@ -1,6 +1,6 @@
 {
-    "name": "edensiometer",
-    "displayName": "eDensiometer",
+    "name": "canopycapture",
+    "displayName": "CanopyCapture",
     "version": "1.0.0",
     "description": "A digital canopy cover measurement device, created as a more accurate alternative to spherical densiometers. Copyright 2018, Nikhil Patel and Billy Pierce. All Rights Reserved.",
     "main": "index.js",
@@ -12,7 +12,7 @@
     "dependencies": {
         "Math": "0.0.1-security",
         "cordova": "^8.0.0",
-        "cordova-android": "^7.1.0",
+        "cordova-android": "^7.0.0",
         "cordova-browser": "^5.0.3",
         "cordova-icon": "^1.0.0",
         "cordova-ios": "^4.5.4",

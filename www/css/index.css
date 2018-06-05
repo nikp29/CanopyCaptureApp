@@ -141,13 +141,6 @@ table {
     width: 100%;
     box-sizing: border-box;
     height: 100%;
-    border-width: 10px;
-    border-bottom-width: 10px;
-    border-top-width: 10px;
-    border-style: solid;
-    border-color: rgba(73,147,99,0.1);
-    -webkit-transition: border-color .5s; /* Safari */
-    transition: border-color .5s;
     
 }
 #right{
