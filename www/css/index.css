@@ -110,23 +110,28 @@ nav {
     padding: 0;
     overflow: hidden;
     background-color: #ffffff;
+    
 }
 table {
     width: 100%;
+    box-sizing: border-box;
+    border-bottom-width: 3px;
+    border-bottom-color: black;
 }
 #navbar-title {
     text-align: center;
     padding: 0px 10px;
     text-decoration: none;
     font-size: 100%;
+    margin-top: 23px;
+    margin-bottom: 13px;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: 700!important;
     display: block;
 }
 .nav-button {
     text-align: center;
-    padding: 0px 10px;
-    color: rgb(100, 144, 100);
+    color: rgb(73,147,99);
     -webkit-transition: color .05s; /* Safari */
     transition: color .05s;
 }
@@ -134,21 +139,30 @@ table {
 #camera-view {
     display: block;
     width: 100%;
+    box-sizing: border-box;
     height: 100%;
+    border-width: 10px;
+    border-bottom-width: 10px;
+    border-top-width: 10px;
+    border-style: solid;
+    border-color: rgba(73,147,99,0.1);
+    -webkit-transition: border-color .5s; /* Safari */
+    transition: border-color .5s;
+    
 }
 #right{
     position: absolute;
     right: 0px;
     top: 50%;
     z-index: 10;
-    color: rgba(100,147,100,.01);
+    color: rgba(73,147,99,.01);
 }
 #left{
     position: absolute;
     left: 0px;
     top: 50%;
     z-index: 10;
-    color: rgba(100,147,100,.01);
+    color: rgba(73,147,99,.01);
 }
 #analyze-interface {
     background-color: lightgray;
@@ -168,24 +182,24 @@ table {
 #up{
     position: absolute;
     left: calc(50% - 23.625px);
-    top: 65px;
+    top: 63px;
     z-index: 10;
-    color: rgba(100,147,100,0.1);
+    color: rgba(73,147,99,0.1);
 }
 #down{
     position: absolute;
     left: calc(50% - 23.625px);
     bottom: 0px;
     z-index: 10;
-    color: rgba(100,147,100,0.1);
+    color: rgba(73,147,99,0.1);
 }
 #border{
     
     position: absolute;
     border-width: 10px;
     border-style: solid;
-    border-color: rgba(100,147,100,0.1);
-    top: 65px;
+    border-color: rgba(73,147,99,0.1);
+    top: 63px;
     bottom: 0%;
     left: 0%;
     right: 0%;
@@ -194,7 +208,7 @@ table {
     transition: border-color .5s;
 }
 #prompt-box{
-    background-color: rgba(100,147,100,1);
+    background-color: rgba(73,147,99,1);
     padding: 6px 4px;
     text-align: center;
     position: absolute;

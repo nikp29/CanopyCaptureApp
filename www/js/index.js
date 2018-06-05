@@ -23,6 +23,7 @@ var app = {
             frequency: 10
         }; // Update every .05 seconds
         this.startCameraAbove(); // Start the Camera.
+        console.log(window.screen.width);
         window.addEventListener("deviceorientation", this.handleOrientation, true); // Handle the device orientation.
         screen.orientation.lock('portrait-primary'); // Lock to straight orientation
         var cameraView = document.getElementById('camera-interface'); //Default to camera view.
@@ -30,8 +31,7 @@ var app = {
         var analyzeView = document.getElementById('analyze-interface');
         analyzeView.style.display = "none";
         CameraPreview.show(); // Start the active camera preview
-        document.getElementById("border").style.position = "absolute";
-        document.getElementById("border").style.display = "block";
+        
     },
 
     restartCameraView: function() {
@@ -47,8 +47,6 @@ var app = {
         var rightIcon = document.getElementById('right-icon')
         cameraView.style.display = "block";
         cameraView.style.color = "rgba(0,0,0,0)";
-        document.getElementById("border").style.position = "absolute";
-        document.getElementById("border").style.display = "block";
         document.getElementById("main-text").innerHTML = "Calculating";
         analyzeView.style.display = "none";
         CameraPreview.show();
@@ -80,7 +78,7 @@ var app = {
         var rightIcon = document.getElementById('right-icon');
         if (document.getElementById('analyze-interface').style.display == "none") { // If in the camera interface.
             
-            promptBox.style.backgroundColor = "rgba(100,147,100,1)";
+            promptBox.style.backgroundColor = "rgba(73,147,99,1)";
             promptBox.style.color = "rgba(255,255,1)";
             prompt1.style.color = "rgba(255,255,255,1)";
             prompt2.style.color = "rgba(255,255,255,1)";
@@ -89,11 +87,11 @@ var app = {
                 prompt1.innerText = "Tap anywhere on camera";
                 prompt2.innerText = "view to capture photo";
                 promptBox.style.left = "calc(50% - 218.13px/2)";
-                left.style.color = "rgba(100,147,100,0)"; // Set the opacity of the arrows to 0.
-                right.style.color = "rgba(100,147,100,0)";
-                up.style.color = "rgba(100,147,100,0)";
-                down.style.color = "rgba(100,147,100,0)";
-                border.style.borderColor = "rgba(100,147,100,1)"; // Light up the sides of the display.
+                left.style.color = "rgba(73,147,99,0)"; // Set the opacity of the arrows to 0.
+                right.style.color = "rgba(73,147,99,0)";
+                up.style.color = "rgba(73,147,99,0)";
+                down.style.color = "rgba(73,147,99,0)";
+                border.style.borderColor = "rgba(73,147,99,1)"; // Light up the sides of the display.
                 // Set the top-right icon to a check if straight.
                 rightIcon.classList.remove("fas");
                 rightIcon.classList.remove("fa-spin");
@@ -102,7 +100,7 @@ var app = {
                 rightIcon.classList.add("fa-check-circle");
                 // app.receivedEvent('deviceready'); // Set "deviceready" to received.
             } else {
-                border.style.borderColor = "rgba(100,147,100,0)"; // Reset the border
+                border.style.borderColor = "rgba(73,147,99,0)"; // Reset the border
                 prompt1.innerText = "Follow the guiding arrows to";
                 prompt2.innerText = "tilt phone until it is level";
                 promptBox.style.left = "calc(50% - 240.13px/2)";
@@ -116,26 +114,26 @@ var app = {
 
                 if (gamma > 0) { // Set the Left/Right arrows based on the angle
                     // Phone titled to the right.
-                    left.style.color = "rgba(100,147,100," + (gamma / 8).toString() + ")"; //Left
-                    right.style.color = "rgba(100,147,100,0)";
+                    left.style.color = "rgba(73,147,99," + (gamma / 8).toString() + ")"; //Left
+                    right.style.color = "rgba(73,147,99,0)";
                 } else {
                     // Phone titled to the left.
-                    right.style.color = "rgba(100,147,100," + (-1 * gamma / 8).toString() + ")"; //Right
-                    left.style.color = "rgba(100,147,100,0)";
+                    right.style.color = "rgba(73,147,99," + (-1 * gamma / 8).toString() + ")"; //Right
+                    left.style.color = "rgba(73,147,99,0)";
                 }
 
                 if (beta > 0) { // Set the Up/Down arrows based on the angle
                     // Phone titled towards the user.
-                    up.style.color = "rgba(100,147,100," + (beta / 8).toString() + ")"; //Up
-                    down.style.color = "rgba(100,147,100,0)";
+                    up.style.color = "rgba(73,147,99," + (beta / 8).toString() + ")"; //Up
+                    down.style.color = "rgba(73,147,99,0)";
                 } else {
                     // Phone titled away from the user.
-                    down.style.color = "rgba(100,147,100," + (-1 * beta / 8).toString() + ")"; //Down
-                    up.style.color = "rgba(100,147,100,0)";
+                    down.style.color = "rgba(73,147,99," + (-1 * beta / 8).toString() + ")"; //Down
+                    up.style.color = "rgba(73,147,99,0)";
                 }
             }
         } else {
-            border.style.borderColor = "rgba(100,147,100,0)"; // If analyze-view, remove border.
+            border.style.borderColor = "rgba(73,147,99,0)"; // If analyze-view, remove border.
             rightIcon.classList.add("fas"); // Change top-right for resetting option.
             rightIcon.classList.add("fa-redo");
             rightIcon.classList.remove("far");
@@ -147,12 +145,13 @@ var app = {
     startCameraAbove: function() { // Start the camera preview.
         CameraPreview.startCamera({
             x: 0,
-            y: (window.screen.height * .1),
-            width: window.screen.width,
-            height: (window.screen.height * .9),
+            y: (63),
+            width: (window.screen.width),
+            height: (window.screen.height - 63),
             toBack: true,
             previewDrag: false,
-            tapPhoto: false
+            tapPhoto: false,
+            tapFocus: true
         });
         CameraPreview.setFlashMode(CameraPreview.FLASH_MODE.OFF); // Turn off the flash.
     },
@@ -178,15 +177,13 @@ var app = {
             var promptBox = document.getElementById('prompt-box');
             var prompt1 = document.getElementById("prompt-text1");
             var prompt2 = document.getElementById("prompt-text2");
-            promptBox.style.backgroundColor = "rgba(100,147,100,0)";
+            promptBox.style.backgroundColor = "rgba(73,147,99,0)";
             promptBox.style.color = "rgba(255,255,255,0)";
             prompt1.style.color = "rgba(255,255,255,0)";
             prompt2.style.color = "rgba(255,255,255,0)";
             cameraView.style.display = "none";
             cameraView.style.color = "rgba(0,0,0,0)";
             // Set to analyze view.
-            document.getElementById("border").style.position = "static";
-            document.getElementById("border").style.display = "none";
             document.getElementById("main-text").innerHTML = "Calculating";
             analyzeView.style.display = "block";
             CameraPreview.hide(); // Hide the camera preview.
