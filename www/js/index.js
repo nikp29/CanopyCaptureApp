@@ -5,6 +5,7 @@ var app = {
         document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
         document.getElementById("border").addEventListener('click', this.takePhoto);
         document.getElementById("right-navbar").addEventListener('click', this.restartCameraView);
+        document.getElementById("left-navbar").addEventListener('click', this.openInfoPage);
     },
     // Bind any cordova events here. Common events are:
     // 'pause', 'resume', etc.
@@ -158,6 +159,10 @@ var app = {
 
     stopCamera: function() { // Stop the camera.
         CameraPreview.stopCamera();
+    },
+
+    openInfoPage: function() {
+        cordova.InAppBrowser.open('https://sites.google.com/view/canopycapture/home', '_system');
     },
 
     takePhoto: function() {
