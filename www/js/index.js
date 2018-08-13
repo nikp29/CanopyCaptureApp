@@ -162,7 +162,9 @@ var app = {
     },
 
     openInfoPage: function() {
+        
         cordova.InAppBrowser.open('https://sites.google.com/view/canopycapture/home', '_system');
+    
     },
 
     takePhoto: function() {
