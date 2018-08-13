@@ -2,7 +2,7 @@
     "name": "canopycapture",
     "displayName": "CanopyCapture",
     "version": "1.0.0",
-    "description": "A digital canopy cover measurement device, created as a more accurate alternative to spherical densiometers. Copyright 2018, Nikhil Patel and Billy Pierce. All Rights Reserved.",
+    "description": "A digital canopy cover measurement device, created as a more accurate alternative to spherical densiometers. Copyright 2018, Nikhil Patel. All Rights Reserved. Created with contributions from Billy Pierce.",
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"

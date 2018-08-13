@@ -1,4 +1,4 @@
-// Copyright 2018, Nikhil Patel and Billy Pierce. All Rights Reserved.
+// Copyright 2018, Nikhil Patel. All Rights Reserved. Created with contributions from Billy Pierce.
 var app = {
     // Application Constructor
     initialize: function() { // Add Events listener once the application is initialized.
