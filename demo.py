@@ -1,5 +1,5 @@
 # A Rapid Proof of Concept for the eDensiometer
-# Copyright 2018, Nikhil Patel. All Rights Reserved.
+# Copyright 2018, Nikhil Patel. All Rights Reserved. Created with contributions from Billy Pierce.
 
 # Imports
 from PIL import Image
