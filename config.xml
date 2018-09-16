@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="io.cordova.canopycapture" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.nikhilpatel.canopycapture" version="1.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>CanopyCapture</name>
     <description>        A mobile application that works as a digital densiometer. Copyright 2018, Nikhil Patel. All Rights Reserved. Created with contributions from Billy Pierce.    </description>
-    <author email="nikp29@gmail.com" href="http://cordova.io"> Nikhil Patel and Billy Pierce </author>
+    <author email="nikp29@gmail.com" href="http://nikhilpatel.org"> Nikhil Patel and Billy Pierce </author>
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />

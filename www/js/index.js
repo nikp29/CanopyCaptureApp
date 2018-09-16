@@ -85,9 +85,9 @@ var app = {
             prompt2.style.color = "rgba(255,255,255,1)";
             
             if (straight) { // If straight.
-                prompt1.innerText = "Tap anywhere on camera";
-                prompt2.innerText = "view to capture photo";
-                promptBox.style.left = "calc(50% - 218.13px/2)";
+                prompt1.innerText = "Make sure your face is out of the frame and tap anywhere on screen to capture photo";
+                prompt2.innerText = "";
+                promptBox.style.left = "calc(50% - 265.08px/2)";
                 left.style.color = "rgba(73,147,99,0)"; // Set the opacity of the arrows to 0.
                 right.style.color = "rgba(73,147,99,0)";
                 up.style.color = "rgba(73,147,99,0)";
@@ -102,9 +102,9 @@ var app = {
                 // app.receivedEvent('deviceready'); // Set "deviceready" to received.
             } else {
                 border.style.borderColor = "rgba(73,147,99,0)"; // Reset the border
-                prompt1.innerText = "Follow the guiding arrows to";
-                prompt2.innerText = "tilt phone until it is level";
-                promptBox.style.left = "calc(50% - 240.13px/2)";
+                prompt1.innerText = "Follow the guiding arrows to tilt phone until it is level with ground and screen is facing up";
+                prompt2.innerText = "";
+                promptBox.style.left = "calc(50% - 265.08px/2)";
                 if (!rightIcon.classList.contains("fa-spin")) { // If the top-right icon isn't already spinning, make it spin.
                     rightIcon.classList.add("fas");
                     rightIcon.classList.add("fa-spin");

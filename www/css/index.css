@@ -208,7 +208,8 @@ table {
     font-size: 18px;
     font-family: Arial;
     color: rgba(255,255,255,1);
-    left: calc(50% - 240.13px/2);
+    left: calc(50% - 270.08px/2);
+    right: calc(50% - 270.08px/2);
     top: 50%;
     border-radius: 12px;
     z-index: 11;
