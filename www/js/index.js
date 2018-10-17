@@ -238,13 +238,13 @@ var app = {
             }
             imageDataObject.data = imageData; // Set the image data to match the color filtering change.
             ctx.putImageData(imageDataObject, 0, 0); // Update the canvas.
-            return (count_canopy / total_size) * 100; // Return the percent cover.
+            return Math.round((count_canopy / total_size) * 100); // Return the percent cover.
         }
 
         function canopyTest(hsv) { //Detects sky from http://ijcsi.org/papers/IJCSI-10-4-1-222-226.pdf
-            if (hsv[2] >= .55 && (hsv[0] * 360 >= 190 && hsv[0] * 360 <= 255)) {
+            if (hsv[2] >= .55 && hsv[0] * 360 >= 180 && hsv[0] * 360 <= 255) {
                 return 2;
-            } else if (hsv[2] >= .7 && hsv[1] < .15) {
+            } else if (hsv[2] >= .7 && hsv[1] < .2) {
                 return 2;
             }
             else {
