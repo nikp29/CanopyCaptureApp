@@ -1,0 +1,67 @@
+// Styling for the masthead
+header.masthead {
+  padding-top: 10rem;
+  padding-bottom: calc(10rem - 56px);
+  background-color: $primary;
+  background-position: center center;
+  
+  #myVideo {
+    position: absolute;
+    top:-10rem;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    height: 90%;
+  }
+  img{
+    margin-top: 1rem;
+  }
+  @include background-cover;
+  hr {
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+  h1 {
+    font-size: 2rem;
+    text-transform: none;
+  }
+  p {
+    font-weight: 300;
+  }
+  @media (min-width: 768px) {
+    p {
+      font-size: 1.15rem;
+    }
+    #myVideo {
+      position: absolute;
+      top:-10rem;
+      right: 0;
+      bottom: 0;
+      min-width: 100%;
+      height: 100%;
+    }
+  }
+  @media (min-width: 992px) {
+    height: 100vh;
+    min-height: 650px;
+    padding-top: 0;
+    padding-bottom: 0;
+    h1 {
+      font-size: 3rem;
+    }
+    #myVideo {
+      position: absolute;
+      top:-10rem;
+      right: 0;
+      bottom: 0;
+      min-width: 100%;
+      height: 125%;
+    }
+    
+  }
+  @media (min-width: 1200px) {
+    h1 {
+      font-size: 4rem;
+    }
+  }
+}
