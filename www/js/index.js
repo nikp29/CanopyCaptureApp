@@ -75,7 +75,7 @@ var app = {
         var prompt2 = document.getElementById("prompt-text2");
         var promptBox = document.getElementById('prompt-box');
 
-        var straight = Math.abs(beta) < 2 && Math.abs(gamma) < 2; // If phone rotation is within 2.5 degrees, count it as striaght.
+        var straight = Math.abs(beta) < 5 && Math.abs(gamma) < 5; // If phone rotation is within 2.5 degrees, count it as striaght.
         var rightIcon = document.getElementById('right-icon');
         if (document.getElementById('analyze-interface').style.display == "none") { // If in the camera interface.
             
@@ -115,21 +115,21 @@ var app = {
 
                 if (gamma > 0) { // Set the Left/Right arrows based on the angle
                     // Phone titled to the right.
-                    left.style.color = "rgba(73,147,99," + (gamma / 8).toString() + ")"; //Left
+                    left.style.color = "rgba(73,147,99," + (gamma / 15).toString() + ")"; //Left
                     right.style.color = "rgba(73,147,99,0)";
                 } else {
                     // Phone titled to the left.
-                    right.style.color = "rgba(73,147,99," + (-1 * gamma / 8).toString() + ")"; //Right
+                    right.style.color = "rgba(73,147,99," + (-1 * gamma / 15).toString() + ")"; //Right
                     left.style.color = "rgba(73,147,99,0)";
                 }
 
                 if (beta > 0) { // Set the Up/Down arrows based on the angle
                     // Phone titled towards the user.
-                    up.style.color = "rgba(73,147,99," + (beta / 8).toString() + ")"; //Up
+                    up.style.color = "rgba(73,147,99," + (beta / 15).toString() + ")"; //Up
                     down.style.color = "rgba(73,147,99,0)";
                 } else {
                     // Phone titled away from the user.
-                    down.style.color = "rgba(73,147,99," + (-1 * beta / 8).toString() + ")"; //Down
+                    down.style.color = "rgba(73,147,99," + (-1 * beta / 15).toString() + ")"; //Down
                     up.style.color = "rgba(73,147,99,0)";
                 }
             }
