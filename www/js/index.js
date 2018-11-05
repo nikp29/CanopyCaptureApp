@@ -6,7 +6,12 @@ var app = {
         document.getElementById("border").addEventListener('click', this.takePhoto);
         document.getElementById("right-navbar").addEventListener('click', this.restartCameraView);
         document.getElementById("left-navbar").addEventListener('click', this.openInfoPage);
+        var storage = window.localStorage;
+        localStorage.setItem("current_canopy_cover",0);
+        localStorage.setItem("current_dataset",'');
+        
     },
+
     // Bind any cordova events here. Common events are:
     // 'pause', 'resume', etc.
     // Update DOM on a Received Event
@@ -24,7 +29,6 @@ var app = {
             frequency: 10
         }; // Update every .05 seconds
         this.startCameraAbove(); // Start the Camera.
-        console.log(window.screen.width);
         window.addEventListener("deviceorientation", this.handleOrientation, true); // Handle the device orientation.
         screen.orientation.lock('portrait-primary'); // Lock to straight orientation
         var cameraView = document.getElementById('camera-interface'); //Default to camera view.
@@ -32,7 +36,61 @@ var app = {
         var analyzeView = document.getElementById('analyze-interface');
         analyzeView.style.display = "none";
         CameraPreview.show(); // Start the active camera preview
+        //read from or create data.json file
+        function readFromFile(fileName, cb) { 
+            console.log('hi');
+            window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function (fileEntry) {
+                fileEntry.getFile(fileName,{ create: true, exclusive: false},function (fileEntry) {
+                    fileEntry.file(function (file) {
+                        var reader = new FileReader();
+    
+                        reader.onloadend = function (e) {
+                            if (this.result != '') {
+                                cb(JSON.parse(this.result));
+                            }
+                        };
+                        reader.readAsText(file);
+                    }, errorHandler.bind(null, fileName));
+                }, errorHandler.bind(null, fileName));
+            }, errorHandler.bind(null, fileName));
+        }
+        var errorHandler = function (fileName, e) {  
+            var msg = '';
         
+            switch (e.code) {
+                case FileError.QUOTA_EXCEEDED_ERR:
+                    msg = 'Storage quota exceeded';
+                    break;
+                case FileError.NOT_FOUND_ERR:
+                    msg = 'File not found';
+                    break;
+                case FileError.SECURITY_ERR:
+                    msg = 'Security error';
+                    break;
+                case FileError.INVALID_MODIFICATION_ERR:
+                    msg = 'Invalid modification';
+                    break;
+                case FileError.INVALID_STATE_ERR:
+                    msg = 'Invalid state';
+                    break;
+                default:
+                    msg = 'Unknown error';
+                    break;
+            };
+        
+            console.log('Error (' + fileName + '): ' + msg);
+        }
+        var fileData;
+        readFromFile('data.json', function (data) {
+            fileData = data;
+            console.log(JSON.stringify(data));
+            localStorage.setItem('dataset_dict',JSON.stringify(fileData));
+            if (fileData !=null) {
+                localStorage.setItem('dataset_dict',JSON.stringify([]));
+            }
+            console.log(JSON.stringify(fileData));
+        });
+
     },
 
     restartCameraView: function() {
@@ -184,6 +242,7 @@ var app = {
             var promptBox = document.getElementById('prompt-box');
             var prompt1 = document.getElementById("prompt-text1");
             var prompt2 = document.getElementById("prompt-text2");
+            
             promptBox.style.backgroundColor = "rgba(73,147,99,0)";
             promptBox.style.color = "rgba(255,255,255,0)";
             prompt1.style.color = "rgba(255,255,255,0)";
@@ -207,12 +266,43 @@ var app = {
             canvas.height = image.height;
             var ctx = canvas.getContext('2d');
             ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+            navigator.geolocation.getCurrentPosition(onLocationSuccess, onLocationError, {enableHighAccuracy: true, timeout: 2*1000, maximumAge: 0});
             percent_cover = processPhoto(canvas); // Calculate the percentcover from the canvas.
+            window.localStorage.setItem("current_canopy_cover",JSON.stringify(percent_cover/100));
+            saveValues();
             canvas.style = image.style; // Set the canvas and image to the same style.
             document.getElementById("main-text").innerHTML = percent_cover.toFixed(2) + "% Canopy Cover";
             image.style.display = "none";
         }
+        function onLocationSuccess(position) {
 
+            latitude = position.coords.latitude;
+            longitude = position.coords.longitude;
+            window.localStorage.setItem("current_location",JSON.stringify([latitude, longitude]));
+        
+        }
+        function onLocationError(error){
+
+            window.localStorage.setItem("current_location",JSON.stringify(['N/A', 'N/A']));
+            console.log([window.localStorage.getItem('current_location'),error]);
+
+        }
+        function saveValues() {
+            var dataset_dict = JSON.parse(window.localStorage.getItem('dataset_dict'));
+            if (dataset_dict == ''){
+                dataset_dict=[]
+            }
+            dict_length = Object.keys(dataset_dict).length;
+            current_canopy_cover = JSON.parse(window.localStorage.getItem('current_canopy_cover'));
+            current_location = JSON.parse(window.localStorage.getItem("current_location"));
+
+            dataset_dict.push([current_canopy_cover,current_location]);
+            dataset_dict_string = JSON.stringify(dataset_dict);
+            console.log(dataset_dict_string);
+            window.localStorage.setItem("dataset_dict",dataset_dict_string);
+            writeToFile('data.json', dataset_dict_string);
+            
+        }
         function processPhoto(canvas) { // Process the photo
             var count_canopy = 0;
             var ctx = canvas.getContext('2d');
@@ -280,6 +370,52 @@ var app = {
                 h /= 6;
             }
             return [h, s, v];
+        }
+        function writeToFile(fileName, data) { 
+            window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function (fileEntry) {
+                fileEntry.getFile(fileName,{ create: false, exclusive: false},function (fileEntry) {
+                    fileEntry.createWriter(function (fileWriter) {
+                        fileWriter.onwriteend = function (e) {
+                            // for real-world usage, you might consider passing a success callback
+                            console.log('Write of file "' + fileName + '"" completed.');
+                        };
+    
+                        fileWriter.onerror = function (e) {
+                            // you could hook this up with our global error handler, or pass in an error callback
+                            console.log('Write failed: ' + e.toString());
+                        };
+    
+                        var blob = new Blob([data], { type: 'text/plain' });
+                        fileWriter.write(blob);
+                    }, errorHandler.bind(null, fileName));    
+                }, errorHandler.bind(null, fileName));
+            }, errorHandler.bind(null, fileName));
+        }
+        var errorHandler = function (fileName, e) {  
+            var msg = '';
+        
+            switch (e.code) {
+                case FileError.QUOTA_EXCEEDED_ERR:
+                    msg = 'Storage quota exceeded';
+                    break;
+                case FileError.NOT_FOUND_ERR:
+                    msg = 'File not found';
+                    break;
+                case FileError.SECURITY_ERR:
+                    msg = 'Security error';
+                    break;
+                case FileError.INVALID_MODIFICATION_ERR:
+                    msg = 'Invalid modification';
+                    break;
+                case FileError.INVALID_STATE_ERR:
+                    msg = 'Invalid state';
+                    break;
+                default:
+                    msg = 'Unknown error';
+                    break;
+            };
+        
+            console.log('Error (' + fileName + '): ' + msg);
         }
     }
 };

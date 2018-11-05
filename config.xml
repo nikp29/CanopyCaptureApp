@@ -51,6 +51,9 @@
     <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
+        <edit-config file="*-Info.plist" mode="merge" target="NSLocationWhenInUseUsageDescription">
+            <string>To collect data on where each canopy cover measurement was taken</string>
+        </edit-config>
         <icon height="57" platform="ios" src="res/icons/ios/icon.png" width="57" />
         <icon height="114" platform="ios" src="res/icons/ios/icon@2x.png" width="114" />
         <icon height="40" platform="ios" src="res/icons/ios/icon-40.png" width="40" />
@@ -91,9 +94,11 @@
     <plugin name="cordova-plugin-vibration" spec="^3.1.0" />
     <plugin name="cordova-plugin-device-orientation" spec="^2.0.1" />
     <plugin name="cordova-plugin-screen-orientation" spec="^3.0.1" />
-    <plugin name="cordova-plugin-file" spec="^6.0.1" />
     <plugin name="cordova-plugin-splashscreen" spec="^5.0.2" />
     <plugin name="cordova-plugin-inappbrowser" spec="^3.0.0" />
+    <plugin name="cordova-plugin-dialogs" spec="^2.0.1" />
+    <plugin name="cordova-plugin-geolocation" spec="^4.0.1" />
+    <plugin name="cordova-plugin-file" spec="^6.0.1" />
     <engine name="browser" spec="^5.0.4" />
     <engine name="ios" spec="^4.5.5" />
     <engine name="android" spec="^7.1.1" />
