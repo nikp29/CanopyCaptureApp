@@ -1,5 +1,5 @@
 // Copyright 2018, Nikhil Patel. All Rights Reserved. Created with contributions from Billy Pierce.
-// TODO: create a dataset table, add functionality to add dataset to table and update display, be able to remove table, save data to dataset, remove dataset
+// TODO: create a dataset table, add functionality to add dataset to table and update display, be able to remove table, save data to dataset, export to csv, remove dataset, make it easy to understand
 
 var app = {
     // Application Constructor
@@ -93,7 +93,7 @@ var app = {
             }
             console.log(JSON.stringify(fileData));
         });
-
+        this.updateDatasetTable()
     },
 
     restartCameraView: function() {
@@ -138,7 +138,7 @@ var app = {
 
         var straight = Math.abs(beta) < 5 && Math.abs(gamma) < 5; // If phone rotation is within 2.5 degrees, count it as striaght.
         var rightIcon = document.getElementById('right-icon');
-        if (document.getElementById('analyze-interface').style.display == "none") { // If in the camera interface.
+        if (document.getElementById('analyze-interface').style.display == "none" && document.getElementById('dataset-selection-interface').style.display) { // If in the camera interface.
             
             promptBox.style.backgroundColor = "rgba(73,147,99,1)";
             promptBox.style.color = "rgba(255,255,1)";
@@ -196,8 +196,14 @@ var app = {
             }
         } else {
             border.style.borderColor = "rgba(73,147,99,0)"; // If analyze-view, remove border.
-            rightIcon.classList.add("fas"); // Change top-right for resetting option.
-            rightIcon.classList.add("fa-redo");
+            if (document.getElementById('dataset-selection-interface').style.display = 'none'){
+                rightIcon.classList.add("fas"); // Change top-right for resetting option.
+                rightIcon.classList.add("fa-redo");
+            } else {
+                rightIcon.classList.add("fas"); // Change top-right for add dataset option.
+                rightIcon.classList.add("fa-plus");
+            }
+            
             rightIcon.classList.remove("far");
             rightIcon.classList.remove("fa-check-circle");
         }
@@ -424,8 +430,24 @@ var app = {
         }
     },
     updateDatasetTable: function() {
+        console.log('hi');
         var datset_name_array = ['rainforest','forest2','forest3'];
-        var table = document.getElementById('dataset-table')
+        var table = document.getElementById('dataset-table');
+        var tableBody = document.createElement('TBODY');
+
+        table.border = '0';
+        
+
+        var heading = 'Select a Dataset'; //Change page header to this
+        for (i = 0; i < datset_name_array.length; i++) {
+            var tr = document.createElement('TR');
+            var td = document.createElement('TD');
+            td.appendChild(document.createTextNode(datset_name_array[i]));
+            tr.appendChild(td);
+            tableBody.appendChild(tr);
+        }
+        table.appendChild(tableBody);
+        
     }
 };
 app.initialize();
