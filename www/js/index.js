@@ -1,4 +1,6 @@
 // Copyright 2018, Nikhil Patel. All Rights Reserved. Created with contributions from Billy Pierce.
+// TODO: create a dataset table, add functionality to add dataset to table and update display, be able to remove table, save data to dataset, remove dataset
+
 var app = {
     // Application Constructor
     initialize: function() { // Add Events listener once the application is initialized.
@@ -11,7 +13,6 @@ var app = {
         localStorage.setItem("current_dataset",'');
         
     },
-
     // Bind any cordova events here. Common events are:
     // 'pause', 'resume', etc.
     // Update DOM on a Received Event
@@ -32,7 +33,9 @@ var app = {
         window.addEventListener("deviceorientation", this.handleOrientation, true); // Handle the device orientation.
         screen.orientation.lock('portrait-primary'); // Lock to straight orientation
         var cameraView = document.getElementById('camera-interface'); //Default to camera view.
-        cameraView.style.display = "block";
+        cameraView.style.display = "none"; //need to change this back and add a link to dataset selection
+        var datasetView = document.getElementById('dataset-selection-interface');
+        datasetView.style.display = "block";
         var analyzeView = document.getElementById('analyze-interface');
         analyzeView.style.display = "none";
         CameraPreview.show(); // Start the active camera preview
@@ -104,7 +107,7 @@ var app = {
         var analyzeView = document.getElementById('analyze-interface');
         var cameraView = document.getElementById('camera-interface');
         var rightIcon = document.getElementById('right-icon')
-        cameraView.style.display = "block";
+        cameraView.style.display = "none"; // revert
         cameraView.style.color = "rgba(0,0,0,0)";
         document.getElementById("main-text").innerHTML = "Calculating";
         analyzeView.style.display = "none";
@@ -239,6 +242,7 @@ var app = {
             var image = document.getElementById('my-image');
             var analyzeView = document.getElementById('analyze-interface');
             var cameraView = document.getElementById('camera-interface');
+            var datasetView = document.getElementById('dataset-selection-interface');
             var promptBox = document.getElementById('prompt-box');
             var prompt1 = document.getElementById("prompt-text1");
             var prompt2 = document.getElementById("prompt-text2");
@@ -249,6 +253,7 @@ var app = {
             prompt2.style.color = "rgba(255,255,255,0)";
             cameraView.style.display = "none";
             cameraView.style.color = "rgba(0,0,0,0)";
+            datasetView.style.display = "none";
             // Set to analyze view.
             document.getElementById("main-text").innerHTML = "Calculating";
             analyzeView.style.display = "block";
@@ -417,6 +422,10 @@ var app = {
         
             console.log('Error (' + fileName + '): ' + msg);
         }
+    },
+    updateDatasetTable: function() {
+        var datset_name_array = ['rainforest','forest2','forest3'];
+        var table = document.getElementById('dataset-table')
     }
 };
 app.initialize();
